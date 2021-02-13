@@ -3,8 +3,11 @@ import { Button, Text, StyleSheet, View } from 'react-native';
 
 import { NativeRouter, Route, Link } from "react-router-native";
 
-export default () => (
+export default ({ history}) => (
     <View>
-        <Text> This is data</Text>
+        <View>
+            <Button title = "Back"  onPress = {() => history.push("/")}/>
+        </View>
+        <Text> This is Quiz page</Text>
     </View>
 );

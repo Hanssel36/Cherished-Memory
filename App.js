@@ -10,7 +10,7 @@ import HomeScreen from './src/screens/HomeScreen';
 const App = () => {
   return (
     <NativeRouter>
-      <View style = {styles.buttonContainer}>
+      <View >
         <BackButton />
 
         <Route exact path = "/" component = {HomeScreen}/>

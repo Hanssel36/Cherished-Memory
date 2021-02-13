@@ -1,12 +1,31 @@
 import React from 'react';
 import { Button, Text, StyleSheet, View } from 'react-native';
 
-import { NativeRouter, Route, Link } from "react-router-native";
+// Might look into TouchableOpacity instead of Button.
 
 export default ({ history}) => (
-    <View>
+    <View >
         <Text> This is Home page</Text>
-        <Button title = "User Profile" onPress = {() => history.push("/data")}/>
-        <Button title = "Quiz" onPress = {() => history.push("/quiz")}/>
+        <View style = {styles.alternativeLayoutButtonContainer}>
+            <Button title = "User Profile"  onPress = {() => history.push("/data")}/>
+        </View>
+
+        <View style = {styles.alternativeLayoutButtonContainer} >
+            <Button color = "green" title = "Quiz"  onPress = {() => history.push("/quiz")}/>
+        </View>
     </View>
 );
+const styles = StyleSheet.create({
+    container: {
+     flex: 1,
+     justifyContent: 'center',
+    },
+    buttonContainer: {
+      margin: 20
+    },
+    alternativeLayoutButtonContainer: {
+      margin: 40,
+      height: 50,
+      justifyContent: 'space-between'
+    }
+  });
