@@ -6,6 +6,7 @@ import { NativeRouter, Route, Link, Switch, BackButton } from "react-router-nati
 import data from './src/screens/data';
 import quiz from './src/screens/quiz';
 import HomeScreen from './src/screens/HomeScreen';
+import memorycard from './src/screens/memorycard';
 
 const App = () => {
   return (
@@ -15,26 +16,12 @@ const App = () => {
 
         <Route exact path = "/" component = {HomeScreen}/>
         <Route exact path = "/data" component = {data}/>
-        <Route exact path = "/quiz" component = {quiz}/>  
+        <Route exact path = "/quiz" component = {quiz}/>
+        <Route exact path = "/memorycard" component = {memorycard}/>
         
       </View>
     </NativeRouter>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-   flex: 1,
-   justifyContent: 'center',
-  },
-  buttonContainer: {
-    margin: 20
-  },
-  alternativeLayoutButtonContainer: {
-    margin: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
-});
 
 export default App;

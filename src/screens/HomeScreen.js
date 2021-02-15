@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Text, StyleSheet, View } from 'react-native';
 
+import styles from '../styles/MyStyle';
+
 // Might look into TouchableOpacity instead of Button.
 
 export default ({ history}) => (
@@ -15,17 +17,3 @@ export default ({ history}) => (
         </View>
     </View>
 );
-const styles = StyleSheet.create({
-    container: {
-     flex: 1,
-     justifyContent: 'center',
-    },
-    buttonContainer: {
-      margin: 20
-    },
-    alternativeLayoutButtonContainer: {
-      margin: 40,
-      height: 50,
-      justifyContent: 'space-between'
-    }
-  });
