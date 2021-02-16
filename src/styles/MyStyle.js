@@ -16,10 +16,12 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between'
     },
     memGameCard: {
-      margin: 40,
+      margin: 10,
       backgroundColor: 'purple',
-      height: 200,
-      width: 100
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      height: 100,
+      width: 75
       
     }
   });
