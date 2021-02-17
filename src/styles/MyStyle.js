@@ -4,8 +4,9 @@ import { StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-     flex: 1,
-     justifyContent: 'center',
+     justifyContent: 'space-between',
+     flexWrap: "wrap",
+     flexDirection: "row"
     },
     buttonContainer: {
       margin: 20
@@ -21,8 +22,11 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       height: 100,
-      width: 75
+      width: 75,
+      backfaceVisibility: 'hidden',
+      overlayColor: 'black'
       
+
     }
   });
 
