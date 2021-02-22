@@ -19,10 +19,10 @@ const Memory = ({ history}) =>{
 
     
   let faceCard = [
-  {image:require('../images/old-people-senior-man-grandfather-grandparent-mature-person-cartoon-character_24640-61818.jpg')},
-  {image:require('../images/football-no-background.png')},
-  {image:require('../images/004Charmander.webp')},
-  {image:require('../images/old-people-senior-man-grandfather-grandparent-mature-person-cartoon-character_24640-61810.jpg')}
+  {image:require('../images/Image_1.png')},
+  {image:require('../images/Image_2.png')},
+  {image:require('../images/Image_3.png')},
+  {image:require('../images/Image_4.png')}
   ]
 
   let frontCardAni = []
