@@ -12,6 +12,7 @@ export default ({ history}) => (
         <Text> This is Quiz page</Text>
         <View style = {styles.alternativeLayoutButtonContainer}>
         <Button title = "Memory game"  onPress = {() => history.push("/memorycard")}/>
+        <Button title = "Multiple Choice" onPress = {() => history.push("/multiplechoice")}/>
         </View>
         
     </View>
