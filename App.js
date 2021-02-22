@@ -3,10 +3,7 @@ import { Button, Text, StyleSheet, View } from 'react-native';
 
 import { NativeRouter, Route, Link, Switch, BackButton } from "react-router-native";
 
-import data from './src/screens/data';
-import quiz from './src/screens/quiz';
-import HomeScreen from './src/screens/HomeScreen';
-import memorycard from './src/screens/memorycard';
+import {Data, Quiz, MemoryCardGame, Home} from './src/screens/';
 
 const App = () => {
   return (
@@ -14,10 +11,10 @@ const App = () => {
       <View >
         <BackButton />
 
-        <Route exact path = "/" component = {HomeScreen}/>
-        <Route exact path = "/data" component = {data}/>
-        <Route exact path = "/quiz" component = {quiz}/>
-        <Route exact path = "/memorycard" component = {memorycard}/>
+        <Route exact path = "/" component = {Home}/>
+        <Route exact path = "/data" component = {Data}/>
+        <Route exact path = "/quiz" component = {Quiz}/>
+        <Route exact path = "/memorycard" component = {MemoryCardGame}/>
         
       </View>
     </NativeRouter>
