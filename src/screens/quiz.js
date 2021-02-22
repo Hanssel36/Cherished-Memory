@@ -13,5 +13,6 @@ export default ({ history}) => (
         <View style = {styles.alternativeLayoutButtonContainer}>
         <Button title = "Memory game"  onPress = {() => history.push("/memorycard")}/>
         </View>
+        
     </View>
 );

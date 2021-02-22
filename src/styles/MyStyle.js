@@ -16,17 +16,23 @@ const styles = StyleSheet.create({
       height: 50,
       justifyContent: 'space-between'
     },
-    memGameCard: {
+    backfacecard:{
       margin: 10,
-      backgroundColor: 'purple',
       flexDirection: 'row',
+      height: 100,
+      width: 75,
+      top: -10,
+      left: -10,
+    },
+    memGameCard: {
+      flexDirection: 'row',
+      backgroundColor: 'purple',
       justifyContent: 'space-between',
       height: 100,
       width: 75,
+      position: 'absolute',
       backfaceVisibility: 'hidden',
-      overlayColor: 'black'
       
-
     }
   });
 
