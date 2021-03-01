@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
+import { COLORS } from '../../styles';
 
 export default function Profile({profile}) {
-	console.log(profile?.media)
 	return (
-		<View>
+		<View style={STYLES.profileCard}>
 			<Image 
 				source={{uri: `data:image/jpeg;base64,${profile?.media?.uri}`}}
 			/>
@@ -21,3 +21,10 @@ export default function Profile({profile}) {
 		</View>
 	);
 }
+
+const STYLES = StyleSheet.create({
+	profileCard: {
+		padding: 3,
+		backgroundColor: COLORS.BACKGROUNDGRAY,
+	}
+});
