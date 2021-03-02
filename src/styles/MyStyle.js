@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
       margin: 20
     },
     alternativeLayoutButtonContainer: {
-      margin: 40,
-      height: 50,
-      justifyContent: 'space-between'
+      margin: 30,
+      justifyContent: 'center',
+      paddingBottom: 100
     },
     backfacecard:{
       margin: 10,
