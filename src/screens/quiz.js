@@ -11,14 +11,14 @@ export default ({ history}) => (
         </View>
 
         <View style = {Quizstyles.icon}>
-            <Image source = {require('../images/puzzle_1.png')}/>
+            <Image source = {require('../assets/images/puzzle_1.png')}/>
         </View>
 
         <View >
             <View style = {styles.alternativeLayoutButtonContainer}>
             
                 <Pressable style = {Quizstyles.Button} onPress = {() => history.push("/memorycard")}>
-                    <Text style = {Quizstyles.text} >Profile Quiz</Text>
+                    <Text style = {Quizstyles.text} >Memory Game</Text>
                 </Pressable>
 
                 <Pressable style = {Quizstyles.QuizButton}  onPress = {() => history.push("/multiplechoice")}>

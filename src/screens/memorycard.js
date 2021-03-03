@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button,Text, View, TouchableOpacity, Image, Animated } from 'react-native';
+import { Button,Text, View, TouchableOpacity, Animated, StyleSheet, Dimensions } from 'react-native';
 import styles from '../styles/MyStyle';
 
 // This is Memory card quiz game.
@@ -19,10 +19,10 @@ const Memory = ({ history}) =>{
 
     
   let faceCard = [
-  {image:require('../images/Image_1.png')},
-  {image:require('../images/Image_2.png')},
-  {image:require('../images/Image_3.png')},
-  {image:require('../images/Image_4.png')}
+  {image:require('../assets/images/Image_1.png')},
+  {image:require('../assets/images/Image_2.png')},
+  {image:require('../assets/images/Image_3.png')},
+  {image:require('../assets/images/Image_4.png')}
   ]
 
   let frontCardAni = []
@@ -129,7 +129,7 @@ const Memory = ({ history}) =>{
   }
 
   return(
-  <View >
+  <View style = {memStyles.container}>
       <View>
         <Button title = "Back"  onPress = {() => history.push("/quiz")}/>
       </View>
@@ -144,5 +144,15 @@ const Memory = ({ history}) =>{
   </View>
   );
 }
+
+const memStyles = StyleSheet.create({
+
+  container: {
+    backgroundColor: 'lime',
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
+  }
+
+});
 
 export default Memory;

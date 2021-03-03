@@ -9,7 +9,7 @@ export default ({ history}) => (
     <View style = {homescreenstyles.container} >
 
         <View style = {homescreenstyles.icon}>
-            <Image source = {require('../images/Logo.png')}/>
+            <Image source = {require('../assets/images/Logo.png')}/>
         </View>
 
         <View style = {styles.alternativeLayoutButtonContainer}>
