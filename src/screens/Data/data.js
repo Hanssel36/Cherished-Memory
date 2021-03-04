@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Text, StyleSheet, View, ScrollView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Form from "./form";
 import Profile from "./profile";
@@ -53,8 +54,8 @@ const Data = ({ history}) => {
 	}, [])
 
 	return(
-		// <View style={STYLES.container}>
-			<ScrollView contentContainerStyle={STYLES.container}>
+		<View style={STYLES.container}>
+			<KeyboardAwareScrollView style={STYLES.scrollContainer}>
 			<View>
 				<Button title = "Back"  onPress = {() => history.push("/")}/>
 			</View>
@@ -73,7 +74,8 @@ const Data = ({ history}) => {
 				}
 			<Form newProfile={newProfile} setNewProfile={setNewProfile} storeData={storeData} />
 
-			</ScrollView>
+			</KeyboardAwareScrollView>
+		</View>
 	);
 }
 
@@ -84,7 +86,11 @@ Data.navigationOptions = {
 const STYLES = StyleSheet.create({
 	container: {
 		padding: 10,
-		flexGrow: 1,
+		flex: 1,
+	},
+	scrollContainer: {
+		flex: 1,
+		width: '100%',
 	},
 	imageContainer: {
     marginVertical: 20,

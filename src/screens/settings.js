@@ -5,7 +5,7 @@ import { NativeRouter, Route, Link } from "react-router-native";
 import { BACKGROUNDBLUE, BASEBLUE, BASEPURPLE } from '../styles/colors';
 import styles from '../styles/MyStyle';
 
-export default ({history}) => (
+const Settings = ({history}) => (
     <View>
         <View>
             <Button title = "Go Back"  onPress = {() => history.push("/")}/>
@@ -13,3 +13,5 @@ export default ({history}) => (
         <Text>settings</Text>
     </View>
 );
+
+export default Settings;
