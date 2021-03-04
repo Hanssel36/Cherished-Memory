@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Text, StyleSheet, View, Dimensions, Pressable, Image } from 'react-native';
 
 import { NativeRouter, Route, Link } from "react-router-native";
+import { BACKGROUNDBLUE, BASEBLUE, BASEPURPLE } from '../styles/colors';
 import styles from '../styles/MyStyle';
 
 export default ({ history}) => (
@@ -33,19 +34,19 @@ export default ({ history}) => (
 
 const Quizstyles = StyleSheet.create({
     container: {
-        backgroundColor: 'dodgerblue',
+        backgroundColor: BACKGROUNDBLUE,
         justifyContent: 'center',
         height: Dimensions.get('window').height,
         width: Dimensions.get('window').width,
     },
     Button: {
-        backgroundColor: 'purple',
+        backgroundColor: BASEPURPLE,
         padding: 30,
         borderRadius: 30,
         marginVertical: 50,
     },
     QuizButton: {
-        backgroundColor: 'cyan',
+        backgroundColor: BASEBLUE,
         padding: 30,
         borderRadius: 30,
         marginVertical: 50

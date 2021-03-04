@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button,Text, View, TouchableOpacity, Animated, StyleSheet, Dimensions } from 'react-native';
+import { BACKGROUNDGREEN } from '../styles/colors';
 import styles from '../styles/MyStyle';
 
 // This is Memory card quiz game.
@@ -148,7 +149,7 @@ const Memory = ({ history}) =>{
 const memStyles = StyleSheet.create({
 
   container: {
-    backgroundColor: 'lime',
+    backgroundColor: BACKGROUNDGREEN,
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
   }
