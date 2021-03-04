@@ -61,3 +61,4 @@ buck-out/
 # Dev
 .vscode/
 package-lock.json
+.env

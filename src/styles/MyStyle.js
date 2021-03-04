@@ -1,6 +1,7 @@
 // Can put all the styles here.
 
 import { StyleSheet} from 'react-native';
+import { BASEPURPLE } from './colors';
 
 const styles = StyleSheet.create({
     container: {
@@ -12,9 +13,9 @@ const styles = StyleSheet.create({
       margin: 20
     },
     alternativeLayoutButtonContainer: {
-      margin: 40,
-      height: 50,
-      justifyContent: 'space-between'
+      margin: 30,
+      justifyContent: 'center',
+      paddingBottom: 100
     },
     backfacecard:{
       margin: 10,
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     },
     memGameCard: {
       flexDirection: 'row',
-      backgroundColor: 'purple',
+      backgroundColor: BASEPURPLE,
       justifyContent: 'space-between',
       height: 100,
       width: 75,
