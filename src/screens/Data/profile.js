@@ -3,6 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-na
 import { COLORS } from '../../styles';
 
 export default function Profile({profile}) {
+	const dobDateObj = new Date(profile?.dob)
+	const dobUTC = {
+		month: dobDateObj.getUTCMonth() + 1, //months from 1-12
+		day: dobDateObj.getUTCDate(),
+		year: dobDateObj.getUTCFullYear(),
+	}
 	return (
 		<View style={STYLES.profileCard}>
 			<Image 
@@ -15,7 +21,7 @@ export default function Profile({profile}) {
 					Relationship: {profile?.relationship}
 				</Text>
 				<Text>
-					Birthday: {String(profile?.dob)}
+					Birthday: {dobUTC.month+"/"+dobUTC.day+"/"+dobUTC.year}
 				</Text>
 
 		</View>
@@ -24,7 +30,11 @@ export default function Profile({profile}) {
 
 const STYLES = StyleSheet.create({
 	profileCard: {
-		padding: 3,
+		padding: 15,
 		backgroundColor: COLORS.BACKGROUNDGRAY,
+		borderRadius: 15,
+		width: "42%",
+		margin: 10,
+		fontFamily: "Oxygen-Regular",
 	}
 });

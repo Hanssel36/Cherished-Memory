@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, StyleSheet, View, ScrollView } from 'react-native';
+import { Button, Text, StyleSheet, View, Modal, Image, Pressable, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Form from "./form";
 import Profile from "./profile";
@@ -8,7 +8,7 @@ import { COLORS } from "../../styles";
 const Data = ({ history}) => {
 	// states
 	const [allProfiles, setAllProfiles] = useState([]);
-	
+	const [modalOpen, setModalOpen] = useState(false);
 	const [newProfile, setNewProfile] = useState({
 		id: null,
 		name: null,
@@ -41,6 +41,7 @@ const Data = ({ history}) => {
 				media: null,
 				dob: new Date(),
 			});
+			setModalOpen(false);
 		} catch (e) {
 			console.error(e)
 		// saving error
@@ -54,14 +55,19 @@ const Data = ({ history}) => {
 
 	return(
 		// <View style={STYLES.container}>
-			<ScrollView contentContainerStyle={STYLES.container}>
+		<View style={STYLES.container}>
 			<View>
 				<Button title = "Back"  onPress = {() => history.push("/")}/>
 			</View>
-			<Text>User Profile</Text>
+			<View style={STYLES.icon}>
+			<Image 
+				source = {require('../../assets/images/DataLogo.png')}
+			/>
+			</View>
+			{/* <Text>User Profile</Text> */}
 			{allProfiles?.length > 0 ?
-			<View>
-				<Text>Existing Profiles</Text>
+			<View style={STYLES.profilesContainer}>
+				{/* <Text>Existing Profiles</Text> */}
 				{
 					allProfiles.map((profile, index) => (
 						<Profile key={`${profile.name}${index}`} profile={profile} />
@@ -71,9 +77,23 @@ const Data = ({ history}) => {
 			: 
 			<Text>No Profiles to show</Text>
 				}
-			<Form newProfile={newProfile} setNewProfile={setNewProfile} storeData={storeData} />
 
-			</ScrollView>
+			<Modal
+				visible={modalOpen}
+				onRequestClose={() => {
+					setModalOpen(false);
+				}}
+			> 
+				<Form newProfile={newProfile} setNewProfile={setNewProfile} storeData={storeData} />
+			</Modal>
+			
+			<Pressable style = {STYLES.button}  onPress = {() => setModalOpen(true)}>
+				<Image 
+					source = {require('../../assets/images/add-btn.png')} 
+				/>
+			</Pressable>
+
+		</View>
 	);
 }
 
@@ -83,18 +103,38 @@ Data.navigationOptions = {
 
 const STYLES = StyleSheet.create({
 	container: {
-		padding: 10,
 		flexGrow: 1,
+		backgroundColor: COLORS.BACKGROUNDGREEN
 	},
 	imageContainer: {
-    marginVertical: 20,
+    	marginVertical: 20,
+		alignItems: 'center',
+		
     // borderWidth: 5,
     // borderColor: '#ff5555'
-  },
-  imageBox: {
-    width: 256,
-    height: 256
-  }
+	},
+
+	imageBox: {
+		width: 256,
+		height: 256
+	},
+	icon: {
+			// justifyContent: 'center',
+		alignItems: 'center',
+	},
+	button: {
+		alignItems: 'center',
+	},
+	text:{
+		fontSize: 26,
+		textAlign: 'center'  
+	},
+	profilesContainer: {
+		flexDirection: "row",
+		width: Dimensions.get('window').width, 
+		flexWrap: "wrap",
+		justifyContent: 'center',
+	},
 });
 
 export default Data;

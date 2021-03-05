@@ -35,7 +35,6 @@ const homescreenstyles = StyleSheet.create({
     container: {
         backgroundColor: BACKGROUNDPURPLE,
         justifyContent: 'center',
-        height: Dimensions.get('window').height,
         width: Dimensions.get('window').width,
     },
     Button: {

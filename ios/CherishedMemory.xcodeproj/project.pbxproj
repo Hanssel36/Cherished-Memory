@@ -16,6 +16,14 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* CherishedMemoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CherishedMemoryTests.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		910D97A367054125A0AEAAE5 /* Comfortaa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A12525BF67844698B1FBC14 /* Comfortaa-Bold.ttf */; };
+		3773DD9392E841179823AAAD /* Comfortaa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1B19C4DB36341F5A74768F1 /* Comfortaa-Light.ttf */; };
+		3B555C816A5C4A1DBB368A10 /* Comfortaa-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C759406D20374DC290416813 /* Comfortaa-Medium.ttf */; };
+		6C23895C3F234F23AA987F2C /* Comfortaa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CB86FCD7C404E7F9E262FB7 /* Comfortaa-Regular.ttf */; };
+		BEC8D44D662A4E8F981128E7 /* Comfortaa-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69BC32BAB1084CFAB3A1B013 /* Comfortaa-SemiBold.ttf */; };
+		AE83ED2881694B2492C8641F /* Oxygen-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34373342271246F6863D5ED3 /* Oxygen-Bold.ttf */; };
+		E7483D8FC1C141D4963393B6 /* Oxygen-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDDD5219680342A4B0B3D20D /* Oxygen-Light.ttf */; };
+		E26FFCC7042D4F79B2A4DE09 /* Oxygen-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26CAC62D6EC84E25AAD146AC /* Oxygen-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +59,14 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CherishedMemory/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		0A12525BF67844698B1FBC14 /* Comfortaa-Bold.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Bold.ttf"; path = "../src/assets/fonts/Comfortaa-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B1B19C4DB36341F5A74768F1 /* Comfortaa-Light.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Light.ttf"; path = "../src/assets/fonts/Comfortaa-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C759406D20374DC290416813 /* Comfortaa-Medium.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Medium.ttf"; path = "../src/assets/fonts/Comfortaa-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5CB86FCD7C404E7F9E262FB7 /* Comfortaa-Regular.ttf */ = {isa = PBXFileReference; name = "Comfortaa-Regular.ttf"; path = "../src/assets/fonts/Comfortaa-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		69BC32BAB1084CFAB3A1B013 /* Comfortaa-SemiBold.ttf */ = {isa = PBXFileReference; name = "Comfortaa-SemiBold.ttf"; path = "../src/assets/fonts/Comfortaa-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		34373342271246F6863D5ED3 /* Oxygen-Bold.ttf */ = {isa = PBXFileReference; name = "Oxygen-Bold.ttf"; path = "../src/assets/fonts/Oxygen-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DDDD5219680342A4B0B3D20D /* Oxygen-Light.ttf */ = {isa = PBXFileReference; name = "Oxygen-Light.ttf"; path = "../src/assets/fonts/Oxygen-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		26CAC62D6EC84E25AAD146AC /* Oxygen-Regular.ttf */ = {isa = PBXFileReference; name = "Oxygen-Regular.ttf"; path = "../src/assets/fonts/Oxygen-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +156,7 @@
 				00E356EF1AD99517003FC87E /* CherishedMemoryTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				86A5132E8B1C418F87FE27D6 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -156,6 +173,22 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		86A5132E8B1C418F87FE27D6 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				0A12525BF67844698B1FBC14 /* Comfortaa-Bold.ttf */,
+				B1B19C4DB36341F5A74768F1 /* Comfortaa-Light.ttf */,
+				C759406D20374DC290416813 /* Comfortaa-Medium.ttf */,
+				5CB86FCD7C404E7F9E262FB7 /* Comfortaa-Regular.ttf */,
+				69BC32BAB1084CFAB3A1B013 /* Comfortaa-SemiBold.ttf */,
+				34373342271246F6863D5ED3 /* Oxygen-Bold.ttf */,
+				DDDD5219680342A4B0B3D20D /* Oxygen-Light.ttf */,
+				26CAC62D6EC84E25AAD146AC /* Oxygen-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -295,6 +328,14 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				910D97A367054125A0AEAAE5 /* Comfortaa-Bold.ttf in Resources */,
+				3773DD9392E841179823AAAD /* Comfortaa-Light.ttf in Resources */,
+				3B555C816A5C4A1DBB368A10 /* Comfortaa-Medium.ttf in Resources */,
+				6C23895C3F234F23AA987F2C /* Comfortaa-Regular.ttf in Resources */,
+				BEC8D44D662A4E8F981128E7 /* Comfortaa-SemiBold.ttf in Resources */,
+				AE83ED2881694B2492C8641F /* Oxygen-Bold.ttf in Resources */,
+				E7483D8FC1C141D4963393B6 /* Oxygen-Light.ttf in Resources */,
+				E26FFCC7042D4F79B2A4DE09 /* Oxygen-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
