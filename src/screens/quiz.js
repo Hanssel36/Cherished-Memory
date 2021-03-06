@@ -5,10 +5,15 @@ import { NativeRouter, Route, Link } from "react-router-native";
 import { BACKGROUNDBLUE, BASEBLUE, BASEPURPLE } from '../styles/colors';
 import styles from '../styles/MyStyle';
 
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 export default ({ history}) => (
     <View style = {Quizstyles.container}>
-        <View>
-            <Button title = "Go Back"  onPress = {() => history.push("/")}/>
+        <View style = {{flexDirection: 'row'}}>
+            <Pressable onPress = {() => history.push("/")}>
+                <AntDesign name="arrowleft" size={50} color="black" />
+            </Pressable>
+            <Text style = {styles.backButtonText}>Go Back</Text>
         </View>
 
         <View style = {Quizstyles.icon}>

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Button,Text, View, TouchableOpacity, Animated, StyleSheet, Dimensions } from 'react-native';
+import { Button,Text, View, TouchableOpacity, Animated, StyleSheet, Dimensions, Pressable } from 'react-native';
 import { BACKGROUNDGREEN } from '../styles/colors';
 import styles from '../styles/MyStyle';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 // This is Memory card quiz game.
 // Create logic for memory game
 
 const Memory = ({ history}) =>{
 
-  numOfCards = 8;
+  let numOfCards = 8;
   let val = 0;
   let aniVal = []
   let boardlock = false;
@@ -132,9 +132,12 @@ const Memory = ({ history}) =>{
 
   return(
   <View style = {memStyles.container}>
-      <View>
-        <Button title = "Back"  onPress = {() => history.push("/quiz")}/>
-      </View>
+    <View style = {{flexDirection: 'row'}}>
+        <Pressable onPress = {() => history.push("/")}>
+            <AntDesign name="arrowleft" size={50} color="black" />
+        </Pressable>
+        <Text style = {styles.backButtonText}>Go Back</Text>
+    </View>
 
       <Text> This is a Memory card game</Text>
       

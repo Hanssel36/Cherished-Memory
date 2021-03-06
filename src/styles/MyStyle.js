@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
       position: 'absolute',
       backfaceVisibility: 'hidden',
       
+    },
+    backButtonText: {
+      fontSize: 26,
+      textAlign: 'left'
     }
   });
 
