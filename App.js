@@ -5,7 +5,7 @@ import { NativeRouter, Route, Link, Switch, BackButton } from "react-router-nati
 
 import {Data, Quiz, MemoryCardGame, Home} from './src/screens/';
 import MultipleChoice from  './src/screens/multiplechoice';
-import settings from './src/screens/settings';
+import settings from './src/screens/settings'
 
 const App = () => {
   return (
