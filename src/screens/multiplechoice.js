@@ -3,7 +3,7 @@ import { Button, Text, StyleSheet, View, Dimensions, Pressable, Modal } from 're
 
 import { NativeRouter, Route, Link } from "react-router-native";
 import styles from '../styles/MyStyle';
-import { BACKGROUNDBLUE, BASEBLUE, BASEPURPLE } from '../styles/colors';
+import { BACKGROUNDBLUE, BACKGROUNDPURPLE, BASEBLUE, BASEPURPLE } from '../styles/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
@@ -184,7 +184,7 @@ const Quizstyles = StyleSheet.create({
     },
     
 	QuizButton: { // format quiz buttons
-        backgroundColor: BASEPURPLE,
+        backgroundColor: BACKGROUNDPURPLE,
         padding: 5,
         borderRadius: 90,
         marginVertical: 10,
