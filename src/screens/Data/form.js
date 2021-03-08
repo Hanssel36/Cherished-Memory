@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, StyleSheet, View, TextInput, Image, TouchableOpacity, Alert, Modal, ScrollView } from 'react-native';
+import { Button, Text, StyleSheet, View, TextInput, Image, Dimensions, Pressable, Alert, Modal, ScrollView } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as ImagePicker from 'react-native-image-picker';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { COLORS } from "../../styles"; 
+import { validateForm } from '../../utils/helper';
 
 const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
+  const [stepsIndex, setStepsIndex] = useState(0);
 	const selectImage = () => {
     let options = {
       title: 'Select Image',
@@ -41,52 +44,79 @@ const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
     });
   }
 
-	return (
-    <View style={STYLES.modalView}>
-        <Text>Add a picture of your loved one</Text>
+  const steps = ["name", "picture", "relationship", "birthday", "additional"]
+
+	return (  
+  <View style={{
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'}}>
+    <ScrollView contentContainerStyle={STYLES.modalView}>
+      {stepsIndex > 0 &&
+        <View style={STYLES.nextButtonContainer}>
+        <Pressable style={STYLES.nextButton} onPress = {() => {setStepsIndex(stepsIndex-1)}}>
+          <AntDesign name="arrowleft" size={50} color="black" />
+          <Text style={STYLES.nextButtonText}>Back</Text>
+        </Pressable>
+      </View>}
+      {stepsIndex === 0 &&     
+
+      <View style={STYLES.formInputContainer}>    
+      <Text style={STYLES.formText}>What is the name of your loved one?</Text>
+        <TextInput
+            style={STYLES.formInput}
+            placeholder="Enter Name"
+            onChangeText={text => {
+              setNewProfile(
+                {...newProfile, 
+                    name: text,
+                })
+              }
+              }
+            
+            defaultValue={newProfile.name}
+            autoCapitalize="words"
+        />
+      </View>
+      }
+
+      {stepsIndex === 1 && 
+      <View style={STYLES.formInputContainer}>
+      <Text style={STYLES.formText}>Add a picture of your loved one</Text>
         <View style={STYLES.imageContainer}>
             {newProfile.media === null 
             ? (
               <Image
                   source={require('../../assets/images/placeholderimage.jpg')}
-                  style={STYLES.imageBox}
+                  style={STYLES.image}
                   resizeMode='contain'
               />
             ) 
             : (
               <Image
-                  source={{ uri: newProfile.media.uri }}
-                  style={STYLES.imageBox}
+                  source={{ uri: newProfile?.media?.uri }}
+                  style={STYLES.image}
                   resizeMode='contain'
               />
             )}
         </View>
 
-        <TouchableOpacity
+        <Pressable
             onPress={selectImage}
-            style={[
-                STYLES.selectButtonContainer,
-                { backgroundColor: COLORS.BASEPURPLE }
-            ]}
+            style={STYLES.addButton}
         >
           <Text style={STYLES.selectButtonTitle}>Choose a picture</Text>
-        </TouchableOpacity>
+        </Pressable>
 
-        <Text>What is their name?</Text>
-        <TextInput
-            style={{height: 40}}
-            placeholder="Enter Name"
-            onChangeText={text => setNewProfile(
-                {...newProfile, 
-                    name: text,
-                })}
-            defaultValue={newProfile.name}
-            autoCapitalize="words"
-        />
+        </View>
+      }
 
-        <Text>What is their relationship to you?</Text>
+      {stepsIndex === 2 && 
+      <View style={STYLES.formInputContainer}>
+        <Text style={STYLES.formText}>What is their relationship to you?</Text>
         <TextInput
-            style={{height: 40}}
+            style={STYLES.formInput}
             placeholder="Enter Relationship"
             onChangeText={text => setNewProfile(
                 {...newProfile, 
@@ -95,32 +125,70 @@ const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
             defaultValue={newProfile.relationship}
             autoCapitalize="words"
         />
+      </View>
+      }
 
-        <Text>What is their birthday?</Text>
+      {stepsIndex === 3 && 
+      <View style={STYLES.formDateInputContainer}>
+        <Text style={STYLES.formText}>What is their birthday?</Text>
         <DatePicker 
           date={newProfile.dob}
-          onDateChange={(value) => setNewProfile(
-              {...newProfile, 
-                  dob: value,
+          placeholder="Select Date"
+          onDateChange={(value) => 
+            {console.log(value.getFullYear())
+              if (value.getFullYear() <= new Date().getFullYear()) {
+                setNewProfile(
+                  {...newProfile, 
+                      dob: value,
+                  })
+                  // setStepsIndex(stepsIndex+1)
               }
-          )}
+              else {
+                // setNewProfile(
+                //   {...newProfile, 
+                //       dob: null,
+                //   })
+              }
+            }
+          }
           mode="date"
         />
-        <Button
-          title="Add New Profile"
+      </View>
+      }
+      
+      <View>
+      {stepsIndex >= 3 
+      ?     
+        <Pressable 
+          style={STYLES.addButton}
           onPress={storeData}
-        />
+        >
+          <Text style={STYLES.addButtonText}>Add New Profile</Text>
+        </Pressable>
+      :
+      <View style={STYLES.nextButtonContainer}>
+        <Pressable style={STYLES.nextButton} onPress = {() => {setStepsIndex(stepsIndex+1)}}>
+          <AntDesign name="arrowright" size={50} color="black" />
+          <Text style={STYLES.nextButtonText}>Next</Text>
+        </Pressable>
+      </View>
+      }
+      </View>
+
+    </ScrollView>
     </View>
 	);
 }
 
 const STYLES = StyleSheet.create({
 	modalView: {
+    flex: 1,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
+    justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -128,17 +196,59 @@ const STYLES = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
+    width: 350,
+    minHeight: 500,
+    height: 500,
+    // minHeight: 500,
+    // maxHeight: Dimensions.get('window').height,
   }, 
-	container: {
-		padding: 10,
-	},
+  formInputContainer: {
+    alignItems: "center",
+    alignContent: "center"
+  }, 
+  formText: {
+    fontSize: 25,
+    textAlign: 'center',
+  },
+  formInput: {
+    fontSize: 20,
+    // height:
+  },
+  formDateInputContainer: {
+    height: 250,
+  },  
 	imageContainer: {
+    marginVertical: 10,
+  },
+  image: {
+    width: 200,
+    height: 200, 
+  },
+  addButton: {
+    backgroundColor: COLORS.BASEPURPLE,
+    borderRadius: 20,
+		padding: 10,
+		elevation: 2,
+  },
+  nextButtonContainer: {
+    justifyContent: "center",
+  },
+  nextButton: {
+    backgroundColor: COLORS.BASEGREEN,
+    borderRadius: 100,
+    width: 100,
+    height: 100,
+    justifyContent: "center",
+    alignItems: "center",
     marginVertical: 20,
   },
-  imageBox: {
-    width: 256,
-    height: 256
+  nextButtonText: {
+    fontSize: 20,
+    textTransform: 'uppercase',
+  },
+  addButtonText: {
+    fontSize: 20,
   }
 });
 

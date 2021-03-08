@@ -35,6 +35,7 @@ const homescreenstyles = StyleSheet.create({
     container: {
         backgroundColor: BACKGROUNDPURPLE,
         justifyContent: 'center',
+        minHeight: Dimensions.get('window').height,
         width: Dimensions.get('window').width,
         paddingVertical: 150
     },

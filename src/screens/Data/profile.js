@@ -9,20 +9,22 @@ export default function Profile({profile}) {
 		day: dobDateObj.getUTCDate(),
 		year: dobDateObj.getUTCFullYear(),
 	}
+	// console.log(profile)
 	return (
 		<View style={STYLES.profileCard}>
 			<Image 
-				source={{uri: `data:image/jpeg;base64,${profile?.media?.uri}`}}
+				source={profile?.media?.uri ? {uri: profile?.media?.uri} : require('../../assets/images/placeholderprofile.png')}
+				style={STYLES.image}
 			/>
-				<Text>
-					Name: {profile?.name}
-				</Text>
-				<Text>
-					Relationship: {profile?.relationship}
-				</Text>
-				<Text>
-					Birthday: {dobUTC.month+"/"+dobUTC.day+"/"+dobUTC.year}
-				</Text>
+			<Text style={STYLES.profileText}>
+				Name: {profile?.name}
+			</Text>
+			<Text style={STYLES.profileText}>
+				Relationship: {profile?.relationship}
+			</Text>
+			<Text style={STYLES.profileText}>
+				Birthday: {dobUTC.month+"/"+dobUTC.day+"/"+dobUTC.year}
+			</Text>
 
 		</View>
 	);
@@ -36,5 +38,14 @@ const STYLES = StyleSheet.create({
 		width: "42%",
 		margin: 10,
 		fontFamily: "Oxygen-Regular",
+	},
+	image: {
+		width: '100%',
+		height: undefined,
+		aspectRatio: 1,
+		marginBottom: 10,
+	},
+	profileText: {
+		fontSize: 18,
 	}
 });
