@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, StyleSheet, View, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NativeRouter, Route, Link } from "react-router-native";
+import { Button, Text, StyleSheet, View, TextInput, Image, TouchableOpacity, Alert, Modal, ScrollView } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as ImagePicker from 'react-native-image-picker';
 import { COLORS } from "../../styles"; 
@@ -44,73 +42,94 @@ const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
   }
 
 	return (
-<View>
-<Text>Add a picture of your loved one</Text>
-<View style={STYLES.imageContainer}>
-    {newProfile.media === null ? (
-        <Image
-            source={require('../../assets/images/placeholderimage.jpg')}
-            style={STYLES.imageBox}
-            resizeMode='contain'
+    <View style={STYLES.modalView}>
+        <Text>Add a picture of your loved one</Text>
+        <View style={STYLES.imageContainer}>
+            {newProfile.media === null 
+            ? (
+              <Image
+                  source={require('../../assets/images/placeholderimage.jpg')}
+                  style={STYLES.imageBox}
+                  resizeMode='contain'
+              />
+            ) 
+            : (
+              <Image
+                  source={{ uri: newProfile.media.uri }}
+                  style={STYLES.imageBox}
+                  resizeMode='contain'
+              />
+            )}
+        </View>
+
+        <TouchableOpacity
+            onPress={selectImage}
+            style={[
+                STYLES.selectButtonContainer,
+                { backgroundColor: COLORS.BASEPURPLE }
+            ]}
+        >
+          <Text style={STYLES.selectButtonTitle}>Choose a picture</Text>
+        </TouchableOpacity>
+
+        <Text>What is their name?</Text>
+        <TextInput
+            style={{height: 40}}
+            placeholder="Enter Name"
+            onChangeText={text => setNewProfile(
+                {...newProfile, 
+                    name: text,
+                })}
+            defaultValue={newProfile.name}
+            autoCapitalize="words"
         />
-    ) : (
-        <Image
-            source={{ uri: newProfile.media.uri }}
-            style={STYLES.imageBox}
-            resizeMode='contain'
+
+        <Text>What is their relationship to you?</Text>
+        <TextInput
+            style={{height: 40}}
+            placeholder="Enter Relationship"
+            onChangeText={text => setNewProfile(
+                {...newProfile, 
+                    relationship: text,
+                })}
+            defaultValue={newProfile.relationship}
+            autoCapitalize="words"
         />
-    )}
-</View>
-<TouchableOpacity
-    onPress={selectImage}
-    style={[
-        STYLES.selectButtonContainer,
-        { backgroundColor: COLORS.BASEPURPLE }
-    ]}
->
-    <Text style={STYLES.selectButtonTitle}>Choose a picture</Text>
-</TouchableOpacity>
-<Text>What is their name?</Text>
-<TextInput
-    style={{height: 40}}
-    placeholder="Enter Name"
-    onChangeText={text => setNewProfile(
-        {...newProfile, 
-            name: text,
-        })}
-    defaultValue={newProfile.name}
-    autoCapitalize="words"
-/>
-<Text>What is their relationship to you?</Text>
-<TextInput
-    style={{height: 40}}
-    placeholder="Enter Relationship"
-    onChangeText={text => setNewProfile(
-        {...newProfile, 
-            relationship: text,
-        })}
-    defaultValue={newProfile.relationship}
-    autoCapitalize="words"
-/>
-<Text>What is their birthday?</Text>
-<DatePicker 
-    date={newProfile.dob}
-    onDateChange={(value) => setNewProfile(
-        {...newProfile, 
-            dob: value,
-        }
-    )}
-    mode="date"
-/>
-<Button
-					title="Add New Profile"
-					onPress={storeData}
-				/>
-</View>
+
+        <Text>What is their birthday?</Text>
+        <DatePicker 
+          date={newProfile.dob}
+          onDateChange={(value) => setNewProfile(
+              {...newProfile, 
+                  dob: value,
+              }
+          )}
+          mode="date"
+        />
+        <Button
+          title="Add New Profile"
+          onPress={storeData}
+        />
+    </View>
 	);
 }
 
 const STYLES = StyleSheet.create({
+	modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  }, 
 	container: {
 		padding: 10,
 	},
