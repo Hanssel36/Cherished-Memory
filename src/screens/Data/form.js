@@ -133,25 +133,17 @@ const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
         <Text style={STYLES.formText}>What is their birthday?</Text>
         <DatePicker 
           date={newProfile.dob}
-          placeholder="Select Date"
+          // placeholder="Select Date"
           onDateChange={(value) => 
-            {console.log(value.getFullYear())
-              if (value.getFullYear() <= new Date().getFullYear()) {
+            {
                 setNewProfile(
                   {...newProfile, 
                       dob: value,
                   })
-                  // setStepsIndex(stepsIndex+1)
               }
-              else {
-                // setNewProfile(
-                //   {...newProfile, 
-                //       dob: null,
-                //   })
-              }
-            }
           }
           mode="date"
+          maximumDate={new Date()}
         />
       </View>
       }

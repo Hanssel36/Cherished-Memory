@@ -55,7 +55,7 @@ const Data = ({ history}) => {
 	}
 
 	useEffect(()=> {
-		AsyncStorage.clear();
+		// AsyncStorage.clear();
 		getData();
 	}, [])
 
