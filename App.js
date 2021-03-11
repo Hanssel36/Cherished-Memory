@@ -14,24 +14,6 @@ const initialState = {
   }
 }
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'changeTheme':
-      return {
-        ...state,
-        theme: action.newTheme
-      };
-    case "changeUser": 
-      return {
-        ...state,
-        user: action.newUser
-      }
-      
-    default:
-      return state;
-  }
-};
-
 const App = () => {
   return (
     <GlobalProvider initialState={initialState} reducer={reducer}>
