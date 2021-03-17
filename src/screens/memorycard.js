@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button,Text, View, TouchableOpacity, Animated, StyleSheet, Dimensions, Pressable } from 'react-native';
-import { BACKGROUNDGREEN } from '../styles/colors';
+import { Button,Text, View, TouchableOpacity, Animated, StyleSheet, Dimensions, Pressable, Image } from 'react-native';
+import { BACKGROUNDBLUE, BACKGROUNDGREEN } from '../styles/colors';
 import styles from '../styles/MyStyle';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -10,15 +10,22 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const Memory = ({ history}) =>{
 
   let numOfCards = 8;
-  let val = 0;
   let aniVal = []
   let boardlock = false;
+
+  // https://javascript.info/task/shuffle used from here
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
   for(let i = 0; i < numOfCards; i++){
     aniVal.push(new Animated.Value(0))
 
   }
-
+  
     
   let faceCard = [
   {image:require('../assets/images/Image_1.png')},
@@ -26,6 +33,10 @@ const Memory = ({ history}) =>{
   {image:require('../assets/images/Image_3.png')},
   {image:require('../assets/images/Image_4.png')}
   ]
+
+  for( let i = 0; i < numOfCards/2; i++){
+    faceCard.push(faceCard[i])
+  }
 
   let frontCardAni = []
   let backCardAni = []
@@ -50,6 +61,9 @@ const Memory = ({ history}) =>{
     
     if(boardlock) {return;}
 
+    // Will Not allow user to do anything with flipped cards.
+    if(itsAMatch.has(cardType)){return;}
+
     if(cardIsFlipped == true){
       // The first card is flipped so now the second card will be checked.
       if(cardIsFlipped && (cardId == firstId)){
@@ -64,7 +78,6 @@ const Memory = ({ history}) =>{
           tension: 10,
           useNativeDriver: true,   
         }).start();
-        val = 90;
 
         itsAMatch.add(firstFlip);
         cardIsFlipped = false;
@@ -119,11 +132,13 @@ const Memory = ({ history}) =>{
   }
 
   let cards = []
+  //let logo = require('../assets/images/Logo.png')
+ shuffleArray(faceCard);
   for (let index = 0, shuffle = 0; index < numOfCards, shuffle < numOfCards; index++, shuffle++) {
     
       cards.push(
-        <TouchableOpacity activeOpacity = {1.0} key = {index} onPress = {() => flipCard(shuffle%faceCard.length,index)}>
-          <Animated.Image key = {index} source= {faceCard[shuffle%faceCard.length].image} style = {[styles.backfacecard , backCardAni[index]]} />
+        <TouchableOpacity activeOpacity = {1.0} key = {index} onPress = {() => flipCard(faceCard[index],index)}>
+          <Animated.Image  key = {index} source= {faceCard[shuffle%faceCard.length].image} style = {[styles.backfacecard , backCardAni[index]]} />
           <Animated.View style = {[styles.memGameCard, frontCardAni[index]]}/>  
         </TouchableOpacity>
       )
@@ -133,17 +148,16 @@ const Memory = ({ history}) =>{
   return(
   <View style = {memStyles.container}>
     <View style = {{flexDirection: 'row'}}>
-        <Pressable onPress = {() => history.push("/")}>
+        <Pressable onPress = {() => history.push("/quiz")}>
             <AntDesign name="arrowleft" size={50} color="black" />
         </Pressable>
         <Text style = {styles.backButtonText}>Go Back</Text>
     </View>
-
-      <Text> This is a Memory card game</Text>
       
       <View style = {styles.container}>
         
       {cards}
+      
 
       </View>
   </View>
@@ -153,7 +167,7 @@ const Memory = ({ history}) =>{
 const memStyles = StyleSheet.create({
 
   container: {
-    backgroundColor: BACKGROUNDGREEN,
+    backgroundColor: BACKGROUNDBLUE,
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
   }
