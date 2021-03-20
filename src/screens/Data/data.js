@@ -3,7 +3,7 @@ import { Button, Text, StyleSheet, View, Modal, Image, Pressable, Dimensions, Sc
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Form from "./form";
-import Profile from "./profile";
+import ProfileCard from "./profilecard";
 import {validateForm} from "../../utils/helper"
 import { COLORS } from "../../styles";
 
@@ -85,13 +85,13 @@ const Data = ({ history}) => {
 				source = {require('../../assets/images/DataLogo.png')}
 			/>
 			</View>
-			{/* <Text>User Profile</Text> */}
+			{/* <Text>User ProfileCard</Text> */}
 			{allProfiles?.length > 0 ?
 			<View style={STYLES.displayProfilesContainer}>
 				{/* <Text>Existing Profiles</Text> */}
 				{
 					allProfiles.map((profile, index) => (
-						<Profile key={`${profile.name}${index}`} profile={profile} />
+						<ProfileCard key={`${profile.name}${index}`} profile={profile} />
 					))
 				}
 			</View>
