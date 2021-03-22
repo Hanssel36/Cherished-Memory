@@ -4,10 +4,11 @@ import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Picker} from '@react-native-picker/picker';
 import { COLORS } from "../../styles"; 
-import {FormInput, FormImageInput} from "./FormInputs"
+import {FormTextInput, FormImageInput} from "./FormInputs"
 
 const ProfileForm = ({newProfile, setNewProfile, storeData, closeModal}) => {
   const steps = ["name", "media", "relationship", "dob", "additional"];
+  const pickerItems = ["Favorite Color", "Favorite Food", "Favorite Animal", "School"];
 
   const [stepsIndex, setStepsIndex] = useState(0);
   const [selectedInputKey, setSelectedInputKey] = useState("Favorite Color"); 
@@ -52,7 +53,10 @@ const ProfileForm = ({newProfile, setNewProfile, storeData, closeModal}) => {
   }
 
   useEffect(()=> {
-    setCurrentInput(newProfile[steps[stepsIndex]]);
+    setCurrentInput(stepsIndex === 7 ? "" : newProfile[steps[stepsIndex]]);
+    if (stepsIndex === 6) {
+      setCurrentInput("Favorite Color")
+    }
   }, [stepsIndex]);
 
   useEffect(()=> {
@@ -66,6 +70,9 @@ const ProfileForm = ({newProfile, setNewProfile, storeData, closeModal}) => {
     justifyContent: 'center',
     alignItems: 'center'}}>
     <ScrollView contentContainerStyle={STYLES.modalView}>
+      {/* <Pressable style={STYLES.backButton} onPress={closeModal}>
+        <AntDesign name="arrowleft" size={50} color="black" />
+      </Pressable> */}
       {stepsIndex > 0 &&
         <View style={STYLES.nextButtonContainer}>
         <Pressable style={STYLES.nextButton} onPress = {onPressBack}>
@@ -75,7 +82,7 @@ const ProfileForm = ({newProfile, setNewProfile, storeData, closeModal}) => {
       </View>}
 
       {stepsIndex === 0 &&     
-        <FormInput 
+        <FormTextInput 
           label="What is the name of your loved one?"
           placeholder="Enter Name"
           onChangeText={text => {
@@ -106,7 +113,7 @@ const ProfileForm = ({newProfile, setNewProfile, storeData, closeModal}) => {
       }
 
       {stepsIndex === 2 && 
-        <FormInput 
+        <FormTextInput 
           label="What is their relationship to you?"
           placeholder="Enter Relationship"
           onChangeText={text => {
@@ -161,14 +168,13 @@ const ProfileForm = ({newProfile, setNewProfile, storeData, closeModal}) => {
           style={{width:300}}
           selectedValue={selectedInputKey}
           onValueChange={(itemValue, itemIndex) => {
-            // console.log(itemValue);
             if (itemValue !== "other")
               setCurrentInput(itemValue);
             setSelectedInputKey(itemValue)
           }}>
-          <Picker.Item label="Favorite Color" value="Favorite Color" />
-          <Picker.Item label="Favorite Food" value="Favorite Food" />
-          <Picker.Item label="Keepsake" value="Keepsake" />
+          {pickerItems.map((key) => (
+            <Picker.Item key={key} label={key} value={key} />
+          ))}
           <Picker.Item label="Add your own type" value="other" />
         </Picker>
 

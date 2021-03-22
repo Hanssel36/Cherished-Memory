@@ -1,7 +1,7 @@
-import FormInput from "./FormInput";
+import FormTextInput from "./FormTextInput";
 import FormImageInput from "./FormImageInput";
 
 export {
-  FormInput,
+  FormTextInput,
   FormImageInput,
 }

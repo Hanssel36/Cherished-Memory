@@ -3,7 +3,7 @@ import { Button, Text, StyleSheet, View, Modal, Image, Pressable, Dimensions, Sc
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Form from "./form";
-import ProfileCard from "./profilecard";
+import Profile from "./profile";
 import {validateForm} from "../../utils/helper"
 import { COLORS } from "../../styles";
 
@@ -12,7 +12,7 @@ const Data = ({ history}) => {
 	const [allProfiles, setAllProfiles] = useState([]);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [newProfile, setNewProfile] = useState({
-		id: null,
+		// id: null,
 		name: null,
 		relationship: null,
 		media: null,
@@ -60,7 +60,6 @@ const Data = ({ history}) => {
 	}, [])
 
 	return(
-		// <View style={STYLES.container}>
 		<View style={STYLES.container}>
         <View style = {{flexDirection: 'row'}}>
             <Pressable onPress = {() => history.push("/")}>
@@ -76,7 +75,18 @@ const Data = ({ history}) => {
 				setModalOpen(false);
 			}}
 		> 
-			<Form newProfile={newProfile} setNewProfile={setNewProfile} storeData={storeData} />
+			<View style = {{flexDirection: 'row'}}>
+				<Pressable style={STYLES.backButton} onPress={() => setModalOpen(false)}>
+					<AntDesign name="arrowleft" size={50} color="black" />
+				</Pressable>
+				<Text style={STYLES.backButtonText}>Exit</Text>
+			</View>
+			<Form 
+				newProfile={newProfile} 
+				setNewProfile={setNewProfile} 
+				storeData={storeData} 
+				// closeModal={() => setModalOpen(false)}
+			/>
 		</Modal>
 
 		<ScrollView contentContainerStyle={STYLES.profileContainer}>
@@ -85,13 +95,11 @@ const Data = ({ history}) => {
 				source = {require('../../assets/images/DataLogo.png')}
 			/>
 			</View>
-			{/* <Text>User ProfileCard</Text> */}
 			{allProfiles?.length > 0 ?
 			<View style={STYLES.displayProfilesContainer}>
-				{/* <Text>Existing Profiles</Text> */}
 				{
 					allProfiles.map((profile, index) => (
-						<ProfileCard key={`${profile.name}${index}`} profile={profile} />
+						<Profile key={`${profile.name}${index}`} profile={profile} />
 					))
 				}
 			</View>
