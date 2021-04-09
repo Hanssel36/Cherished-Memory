@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Text, StyleSheet, View, Dimensions, Image, Pressable } from 'react-native';
-import { BACKGROUNDPURPLE, BASEBLUE, BASEGRAY, BASEGREEN } from '../styles/colors';
+import { COLORS } from '../styles';
 
 import styles from '../styles/MyStyle';
 
@@ -9,53 +9,57 @@ import styles from '../styles/MyStyle';
 export default ({ history}) => (
     <View style = {homescreenstyles.container} >
 
-        <View style = {homescreenstyles.icon}>
-            <Image source = {require('../assets/images/Logo.png')}/>
-        </View>
+        <Image style={homescreenstyles.icon} source = {require('../assets/images/Logo.png')}/>
 
-        <View style = {styles.alternativeLayoutButtonContainer}>
 
-            <Pressable style = {homescreenstyles.Button} onPress = {() => history.push("/data")}>
-                <Text style = {homescreenstyles.text} >User Profile</Text>
-            </Pressable>
+        <Pressable style = {homescreenstyles.ProfileButton} onPress = {() => history.push("/data")}>
+            <Text style = {homescreenstyles.text} >User Profile</Text>
+        </Pressable>
 
-            <Pressable style = {homescreenstyles.QuizButton} onPress = {() => history.push("/quiz")}>
-                <Text style = {homescreenstyles.text} >Quiz</Text>
-            </Pressable>
+        <Pressable style = {homescreenstyles.QuizButton} onPress = {() => history.push("/quiz")}>
+            <Text style = {homescreenstyles.text} >Quiz</Text>
+        </Pressable>
 
-            <Pressable style = {homescreenstyles.SettingsButton} onPress = {() => history.push("/settings")}>
-                <Text style = {homescreenstyles.text} >Settings</Text>
-            </Pressable>
+        <Pressable style = {homescreenstyles.SettingsButton} onPress = {() => history.push("/settings")}>
+            <Text style = {homescreenstyles.text} >Settings</Text>
+        </Pressable>
 
-        </View>
     </View>
 );
 
 const homescreenstyles = StyleSheet.create({
     container: {
-        backgroundColor: BACKGROUNDPURPLE,
-        justifyContent: 'center',
+        flex: 1,
+        backgroundColor: COLORS.BACKGROUNDPURPLE,
         minHeight: Dimensions.get('window').height,
         width: Dimensions.get('window').width,
-        paddingVertical: 150
+        paddingVertical: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    Button: {
-        backgroundColor: BASEGREEN,
+    ProfileButton: {
+        backgroundColor: COLORS.BASEGREEN,
         padding: 30,
         borderRadius: 30,
         marginVertical: 30,
+        width: "80%",
+        minWidth: 200,
     },
     QuizButton: {
-        backgroundColor: BASEBLUE,
+        backgroundColor: COLORS.BASEBLUE,
         padding: 30,
         borderRadius: 30,
-        marginVertical: 30
+        marginVertical: 30,
+        width: "80%",
+        minWidth: 200,
     },
     SettingsButton: {
-        backgroundColor: BASEGRAY,
+        backgroundColor: COLORS.BASEGRAY,
         padding: 30,
         borderRadius: 30,
-        marginVertical: 30
+        marginVertical: 30,
+        width: "80%",
+        minWidth: 200,
     },
     text:{
         fontSize: 26,
