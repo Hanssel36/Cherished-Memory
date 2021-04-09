@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, StyleSheet, View, TextInput, Image, Dimensions, Pressable, Alert, Modal, ScrollView } from 'react-native';
+import { Button, Text, StyleSheet, View, TextInput, Pressable, Alert, ScrollView } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Picker} from '@react-native-picker/picker';
 import { COLORS } from "../../styles"; 
 import {FormTextInput, FormImageInput} from "./FormInputs"
 
-const ProfileForm = ({newProfile, setNewProfile, storeData, closeModal}) => {
+const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
   const steps = ["name", "media", "relationship", "dob", "additional"];
   const pickerItems = ["Favorite Color", "Favorite Food", "Favorite Animal", "School"];
 
@@ -215,7 +215,7 @@ const ProfileForm = ({newProfile, setNewProfile, storeData, closeModal}) => {
         <Text style={STYLES.formText}>Great! You are all done. Press Submit to finish adding the new profile.</Text> 
         <Pressable 
           style={STYLES.submitButton}
-          onPress={storeData}
+          onPress={addProfile}
         >
           <Text style={STYLES.defaultButtonText}>Submit</Text>
         </Pressable>
@@ -255,9 +255,6 @@ const STYLES = StyleSheet.create({
     elevation: 5,
     width: 350,
     minHeight: 500,
-    height: 500,
-    // minHeight: 500,
-    // maxHeight: Dimensions.get('window').height,
   }, 
   formInputContainer: {
     alignItems: "center",
