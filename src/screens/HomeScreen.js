@@ -11,6 +11,8 @@ import styles from '../styles/MyStyle';
 const Home = ({ history}) => {
     const [{user}, dispatch] = useGlobal();
 
+    // console.log(user)
+
     const onLogoutPress = () => {
         firebase.auth().signOut().then(() => {
               // Sign-out successful.
@@ -90,7 +92,7 @@ const homescreenstyles = StyleSheet.create({
         minWidth: 200,
     },
     LoginButton: {
-        backgroundColor: BASEGRAY,
+        backgroundColor: COLORS.BASEGRAY,
         padding: 30,
         borderRadius: 30,
     },
