@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Form from "./form";
 import Profile from "./profile";
-import {validateForm} from "../../utils/helper"
+import { saveProfiles } from "./helpers";
 import { COLORS } from "../../styles";
 
 const Data = ({ history}) => {
@@ -12,12 +12,13 @@ const Data = ({ history}) => {
 	const [allProfiles, setAllProfiles] = useState([]);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [newProfile, setNewProfile] = useState({
-		id: null,
+		// id: null,
 		name: null,
 		relationship: null,
 		media: null,
 		dob: new Date(),
 	});
+	const [modifiedDataToggle, setModifiedDataToggle] = useState(false);
 
 	// util functions get/store data
 	const getData = async () => {
@@ -30,13 +31,12 @@ const Data = ({ history}) => {
 		}
 	}
 
-	const storeData = async () => {
+	const addProfile = async () => {
 		try {
 			// if (validateForm(newProfile)) {
 				const newData = [...allProfiles, ...[newProfile]];
 				setAllProfiles(newData);
-				const jsonValue = JSON.stringify(newData);
-				await AsyncStorage.setItem('profiles', jsonValue);
+				saveProfiles(newData);
 				setNewProfile({
 					id: null,
 					name: null,
@@ -45,6 +45,7 @@ const Data = ({ history}) => {
 					dob: new Date(),
 				});
 				setModalOpen(false);
+				setModifiedDataToggle(!modifiedDataToggle);
 			// } else {
 			// 	// setErrorMessage(newProfile);
 			// }
@@ -54,19 +55,39 @@ const Data = ({ history}) => {
 		}
 	}
 
+	const removeProfile = (profileIndex) => {
+		console.log(profileIndex);
+		// console.log(allProfiles[profileIndex]);
+		let remainingProfiles = allProfiles;
+		remainingProfiles.splice(profileIndex, 1)
+		console.log(remainingProfiles);
+		setAllProfiles(remainingProfiles);
+		saveProfiles(remainingProfiles);
+		setModifiedDataToggle(!modifiedDataToggle);
+		// const jsonValue = JSON.stringify(remainingProfiles);
+		// await AsyncStorage.setItem('profiles', jsonValue);
+	}
+
+	const saveProfile = (profileIndex, newData) => {
+		const updateProfiles = allProfiles.splice(profileIndex-1, 1, newData);
+		console.log(updateProfiles);
+		setAllProfiles(updateProfiles);
+		saveProfiles(updateProfiles);
+		setModifiedDataToggle(!modifiedDataToggle);
+	}
+
 	useEffect(()=> {
 		// AsyncStorage.clear();
 		getData();
-	}, [])
+	}, [modifiedDataToggle])
 
 	return(
-		// <View style={STYLES.container}>
 		<View style={STYLES.container}>
         <View style = {{flexDirection: 'row'}}>
-            <Pressable onPress = {() => history.push("/")}>
+            <Pressable style={STYLES.backButton} onPress = {() => history.push("/")}>
                 <AntDesign name="arrowleft" size={50} color="black" />
+								<Text style = {STYLES.backButtonText}>Go Back</Text>
             </Pressable>
-            <Text style = {STYLES.backButtonText}>Go Back</Text>
         </View>
 
 		<Modal
@@ -76,7 +97,18 @@ const Data = ({ history}) => {
 				setModalOpen(false);
 			}}
 		> 
-			<Form newProfile={newProfile} setNewProfile={setNewProfile} storeData={storeData} />
+			<View style = {{flexDirection: 'row'}}>
+				<Pressable style={STYLES.backButton} onPress={() => setModalOpen(false)}>
+					<AntDesign name="arrowleft" size={50} color="black" />
+					<Text style={STYLES.backButtonText}>Exit</Text>
+				</Pressable>
+			</View>
+			<Form 
+				newProfile={newProfile} 
+				setNewProfile={setNewProfile} 
+				addProfile={addProfile} 
+				// closeModal={() => setModalOpen(false)}
+			/>
 		</Modal>
 
 		<ScrollView contentContainerStyle={STYLES.profileContainer}>
@@ -85,13 +117,11 @@ const Data = ({ history}) => {
 				source = {require('../../assets/images/DataLogo.png')}
 			/>
 			</View>
-			{/* <Text>User Profile</Text> */}
 			{allProfiles?.length > 0 ?
 			<View style={STYLES.displayProfilesContainer}>
-				{/* <Text>Existing Profiles</Text> */}
 				{
 					allProfiles.map((profile, index) => (
-						<Profile key={`${profile.name}${index}`} profile={profile} />
+						<Profile key={`${profile.name}${index}`} profile={profile} removeProfile={()=>removeProfile(index)} />
 					))
 				}
 			</View>
@@ -123,15 +153,19 @@ const STYLES = StyleSheet.create({
 		maxHeight: Dimensions.get('window').height,
 	},
 	imageContainer: {
-    	marginVertical: 20,
+    marginVertical: 20,
 		alignItems: 'center',
 		
     // borderWidth: 5,
     // borderColor: '#ff5555'
 	},
-    backButtonText: {
+	backButton: {
+		flex: 1,
+		flexDirection: "row",
+		alignItems: 'center',
+	},
+	backButtonText: {
 		fontSize: 26,
-		textAlign: 'left'
 	},
 	imageBox: {
 		width: 256,

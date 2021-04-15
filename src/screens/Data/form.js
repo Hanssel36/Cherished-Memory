@@ -1,50 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, StyleSheet, View, TextInput, Image, Dimensions, Pressable, Alert, Modal, ScrollView } from 'react-native';
+import { Button, Text, StyleSheet, View, TextInput, Pressable, Alert, ScrollView } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import * as ImagePicker from 'react-native-image-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Picker} from '@react-native-picker/picker';
 import { COLORS } from "../../styles"; 
-import { validateForm } from '../../utils/helper';
+import {FormTextInput, FormImageInput} from "./FormInputs"
 
-const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
+const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
+  const steps = ["name", "media", "relationship", "dob", "additional"];
+  const pickerItems = ["Favorite Color", "Favorite Food", "Favorite Animal", "School"];
+
   const [stepsIndex, setStepsIndex] = useState(0);
-	const selectImage = () => {
-    let options = {
-      title: 'Select Image',
-      maxWidth: 256,
-      maxHeight: 256,
-      noData: true,
-      mediaType: 'photo',
-      storageOptions: {
-        skipBackup: true,
-				path: 'images',
-      }
-    };
+  const [selectedInputKey, setSelectedInputKey] = useState("Favorite Color"); 
+  const [customKey, setCustomKey] = useState(); 
+  const [selectedInputValue, setSelectedInputValue] = useState(); 
+  const [currentInput, setCurrentInput] = useState();
 
-    ImagePicker.launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled photo picker');
-        Alert.alert('You did not select any image');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        let media = { 
-					base64: response.base64,
-					uri: response.uri,
-				};
-
-        // ADD THIS
-        setNewProfile({
-					...newProfile,
-					media,
-				});
-      }
-    });
+  const onPressBack = () => {
+    if (stepsIndex === 6) {
+      setStepsIndex(4);
+    }
+    else {
+      setStepsIndex(stepsIndex-1);
+    }
   }
 
-  const steps = ["name", "picture", "relationship", "birthday", "additional"]
+  const onPressNext = () => {
+    if (currentInput) {
+      if (stepsIndex === 4) {
+        return;
+      }
+      else if (stepsIndex === 7) {
+        setNewProfile({
+          ...newProfile,
+          [selectedInputKey=== "other" ? customKey : selectedInputKey]: selectedInputValue,
+        })
+        setStepsIndex(4);
+      }
+      else {
+        setStepsIndex(stepsIndex+1);
+      }
+        // setNewProfile(
+        //   {...newProfile, 
+        //     [currentStep]: currentInput,
+        //   }
+        // );
+        // setCurrentInput(newProfile[steps[stepsIndex]]);
+    }
+    else {
+      Alert.alert('You did not enter anything');
+    }
+  }
+
+  useEffect(()=> {
+    setCurrentInput(stepsIndex === 7 ? "" : newProfile[steps[stepsIndex]]);
+    if (stepsIndex === 6) {
+      setCurrentInput("Favorite Color")
+    }
+  }, [stepsIndex]);
+
+  useEffect(()=> {
+    console.log("currentInput:",currentInput);
+  }, [currentInput]);
 
 	return (  
   <View style={{
@@ -53,79 +70,61 @@ const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
     justifyContent: 'center',
     alignItems: 'center'}}>
     <ScrollView contentContainerStyle={STYLES.modalView}>
+      {/* <Pressable style={STYLES.backButton} onPress={closeModal}>
+        <AntDesign name="arrowleft" size={50} color="black" />
+      </Pressable> */}
       {stepsIndex > 0 &&
         <View style={STYLES.nextButtonContainer}>
-        <Pressable style={STYLES.nextButton} onPress = {() => {setStepsIndex(stepsIndex-1)}}>
+        <Pressable style={STYLES.nextButton} onPress = {onPressBack}>
           <AntDesign name="arrowleft" size={50} color="black" />
           <Text style={STYLES.nextButtonText}>Back</Text>
         </Pressable>
       </View>}
-      {stepsIndex === 0 &&     
 
-      <View style={STYLES.formInputContainer}>    
-      <Text style={STYLES.formText}>What is the name of your loved one?</Text>
-        <TextInput
-            style={STYLES.formInput}
-            placeholder="Enter Name"
-            onChangeText={text => {
-              setNewProfile(
-                {...newProfile, 
-                    name: text,
-                })
+      {stepsIndex === 0 &&     
+        <FormTextInput 
+          label="What is the name of your loved one?"
+          placeholder="Enter Name"
+          onChangeText={text => {
+            setCurrentInput(text);
+            setNewProfile(
+              {...newProfile, 
+                name: text,
               }
-              }
-            
-            defaultValue={newProfile.name}
-            autoCapitalize="words"
+            );
+            }}
+          defaultValue={newProfile.name}
+          autoCapitalize="words"
         />
-      </View>
       }
 
       {stepsIndex === 1 && 
-      <View style={STYLES.formInputContainer}>
-      <Text style={STYLES.formText}>Add a picture of your loved one</Text>
-        <View style={STYLES.imageContainer}>
-            {newProfile.media === null 
-            ? (
-              <Image
-                  source={require('../../assets/images/placeholderimage.jpg')}
-                  style={STYLES.image}
-                  resizeMode='contain'
-              />
-            ) 
-            : (
-              <Image
-                  source={{ uri: newProfile?.media?.uri }}
-                  style={STYLES.image}
-                  resizeMode='contain'
-              />
-            )}
-        </View>
-
-        <Pressable
-            onPress={selectImage}
-            style={STYLES.addButton}
-        >
-          <Text style={STYLES.selectButtonTitle}>Choose a picture</Text>
-        </Pressable>
-
-        </View>
+        <FormImageInput
+          label="Add a picture of your loved one"
+          imgSource={newProfile?.media}
+          setImage={(media) => {
+            setCurrentInput(media);
+            setNewProfile({
+              ...newProfile,
+              media,
+            });
+          }}
+        />
       }
 
       {stepsIndex === 2 && 
-      <View style={STYLES.formInputContainer}>
-        <Text style={STYLES.formText}>What is their relationship to you?</Text>
-        <TextInput
-            style={STYLES.formInput}
-            placeholder="Enter Relationship"
-            onChangeText={text => setNewProfile(
-                {...newProfile, 
-                    relationship: text,
-                })}
-            defaultValue={newProfile.relationship}
-            autoCapitalize="words"
+        <FormTextInput 
+          label="What is their relationship to you?"
+          placeholder="Enter Relationship"
+          onChangeText={text => {
+            setCurrentInput(text);
+            setNewProfile(
+              {...newProfile, 
+                  relationship: text,
+              })}}
+          defaultValue={newProfile.relationship}
+          autoCapitalize="words"
         />
-      </View>
       }
 
       {stepsIndex === 3 && 
@@ -133,13 +132,13 @@ const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
         <Text style={STYLES.formText}>What is their birthday?</Text>
         <DatePicker 
           date={newProfile.dob}
-          // placeholder="Select Date"
           onDateChange={(value) => 
             {
-                setNewProfile(
-                  {...newProfile, 
-                      dob: value,
-                  })
+              // setCurrentInput(value);
+              setNewProfile(
+                {...newProfile, 
+                    dob: value,
+                })
               }
           }
           mode="date"
@@ -147,19 +146,84 @@ const ProfileForm = ({newProfile, setNewProfile, storeData}) => {
         />
       </View>
       }
+
+      {stepsIndex === 4 && 
+      <View style={STYLES.formInputContainer}>
+        <Text style={STYLES.formText}>Is there any additional information about this person you would like to add?</Text>
+        <View style={STYLES.buttonRow}>
+          <Pressable style={STYLES.confirmButton} onPress={()=> setStepsIndex(stepsIndex+2)}>
+            <Text style={STYLES.defaultButtonText}>Yes</Text>
+          </Pressable>
+          <Pressable style={STYLES.rejectButton} onPress={()=> setStepsIndex(stepsIndex+1)}>
+            <Text style={STYLES.defaultButtonText}>No</Text>
+          </Pressable>
+        </View>
+      </View>
+      }
+
+      {stepsIndex === 6 && 
+      <View style={STYLES.formInputContainer}>
+        <Text style={STYLES.formText}>Choose the type of information to add</Text>
+        <Picker
+          style={{width:300}}
+          selectedValue={selectedInputKey}
+          onValueChange={(itemValue, itemIndex) => {
+            if (itemValue !== "other")
+              setCurrentInput(itemValue);
+            setSelectedInputKey(itemValue)
+          }}>
+          {pickerItems.map((key) => (
+            <Picker.Item key={key} label={key} value={key} />
+          ))}
+          <Picker.Item label="Add your own type" value="other" />
+        </Picker>
+
+        {selectedInputKey=== "other" &&
+          <TextInput
+            style={STYLES.formInput}
+            placeholder={`Enter Type of Information`}
+            onChangeText={text => {
+              setCurrentInput(text);
+              setCustomKey(text);
+            }}
+            defaultValue={customKey}
+            autoCapitalize="words"
+          />
+        }
+      </View>
+      }
+
+      {stepsIndex === 7 && 
+      <View style={STYLES.formInputContainer}>
+        <Text style={STYLES.formText}>Enter the corresponding information</Text>
+        <TextInput
+            style={STYLES.formInput}
+            placeholder={`Enter Their ${selectedInputKey=== "other" ? customKey : selectedInputKey}`}
+            onChangeText={text => {
+              setCurrentInput(text);
+              setSelectedInputValue(text);
+            }}
+            defaultValue={selectedInputValue}
+        />
+      </View>
+      }
       
       <View>
-      {stepsIndex >= 3 
-      ?     
+      {stepsIndex === 5
+      ? 
+      <View style={STYLES.formInputContainer}> 
+        <Text style={STYLES.formText}>Great! You are all done. Press Submit to finish adding the new profile.</Text> 
         <Pressable 
-          style={STYLES.addButton}
-          onPress={storeData}
+          style={STYLES.submitButton}
+          onPress={addProfile}
         >
-          <Text style={STYLES.addButtonText}>Add New Profile</Text>
+          <Text style={STYLES.defaultButtonText}>Submit</Text>
         </Pressable>
-      :
+        </View>
+      : 
+      stepsIndex !== 4 &&  // stepsIndex < 6 &&
       <View style={STYLES.nextButtonContainer}>
-        <Pressable style={STYLES.nextButton} onPress = {() => {setStepsIndex(stepsIndex+1)}}>
+        <Pressable style={STYLES.nextButton} onPress = {onPressNext}>
           <AntDesign name="arrowright" size={50} color="black" />
           <Text style={STYLES.nextButtonText}>Next</Text>
         </Pressable>
@@ -191,9 +255,6 @@ const STYLES = StyleSheet.create({
     elevation: 5,
     width: 350,
     minHeight: 500,
-    height: 500,
-    // minHeight: 500,
-    // maxHeight: Dimensions.get('window').height,
   }, 
   formInputContainer: {
     alignItems: "center",
@@ -210,14 +271,26 @@ const STYLES = StyleSheet.create({
   formDateInputContainer: {
     height: 250,
   },  
-	imageContainer: {
-    marginVertical: 10,
+  confirmButton: {
+    backgroundColor: COLORS.BASEPURPLE,
+    borderRadius: 20,
+		paddingVertical: 10,
+    paddingHorizontal: 20,
+		elevation: 2,
+    marginHorizontal: 10,
   },
-  image: {
-    width: 200,
-    height: 200, 
+  rejectButton: {
+    backgroundColor: COLORS.BASEBLUE,
+    borderRadius: 20,
+		padding: 10,
+    paddingHorizontal: 20,
+		elevation: 2,
+    marginHorizontal: 10,
   },
-  addButton: {
+  buttonRow: {
+    flexDirection: "row",
+  },  
+  submitButton: {
     backgroundColor: COLORS.BASEPURPLE,
     borderRadius: 20,
 		padding: 10,
@@ -239,7 +312,7 @@ const STYLES = StyleSheet.create({
     fontSize: 20,
     textTransform: 'uppercase',
   },
-  addButtonText: {
+  defaultButtonText: {
     fontSize: 20,
   }
 });
