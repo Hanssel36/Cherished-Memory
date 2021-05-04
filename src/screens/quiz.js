@@ -1,18 +1,19 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Button, Text, StyleSheet, View, Dimensions, Pressable, Image, Modal } from 'react-native';
-
 import { NativeRouter, Route, Link } from "react-router-native";
-import { BACKGROUNDBLUE, BASEBLUE, BASEPURPLE } from '../styles/colors';
 import styles from '../styles/MyStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Tooltip from 'react-native-walkthrough-tooltip';
+import { UserContext } from "../utils/fontGlobal";
+import { COLORS } from '../styles';
 
 const quizScreen = ({ history}) => {
 
     const [allProfiles, setAllProfiles] = useState([]);
     const [modifiedDataToggle, setModifiedDataToggle] = useState(false);
     const [blockGame, setBlockGame] = useState(false);
+    const {step3, setStep3} = useContext(UserContext);
 
     const getData = async () => {
 		try {
@@ -37,6 +38,10 @@ const quizScreen = ({ history}) => {
             history.push("/memorycard");
         }
 
+    }
+
+    function matchingButton(){
+        setStep3(false);
     }
 
     return(
@@ -70,11 +75,18 @@ const quizScreen = ({ history}) => {
 
         <View >
             <View style = {styles.alternativeLayoutButtonContainer}>
-            
+
+
+            <Tooltip
+            isVisible={step3}
+            content={<Text style = {Quizstyles.text}>Press to play matching card game!</Text>}
+            placement="top"
+            onClose={() => matchingButton()}
+            >
                 <Pressable style = {Quizstyles.Button} onPress = {() => checkNumOfProfiles()}>
                     <Text style = {Quizstyles.text} >Memory Game</Text>
                 </Pressable>
-
+            </Tooltip>
                 <Pressable style = {Quizstyles.QuizButton}  onPress = {() => history.push("/multiplechoice")}>
                     <Text style = {Quizstyles.text} >Multiple Choice</Text>
                 </Pressable>
@@ -88,22 +100,23 @@ const quizScreen = ({ history}) => {
 
 const Quizstyles = StyleSheet.create({
     container: {
-        backgroundColor: BACKGROUNDBLUE,
+        backgroundColor: COLORS.BACKGROUNDBLUE,
         justifyContent: 'center',
         height: Dimensions.get('window').height,
         width: Dimensions.get('window').width,
     },
     Button: {
-        backgroundColor: BASEPURPLE,
+        backgroundColor: COLORS.BASEPURPLE,
         padding: 30,
         borderRadius: 30,
         marginVertical: 50,
+        minWidth: 350,
     },
     QuizButton: {
-        backgroundColor: BASEBLUE,
+        backgroundColor: COLORS.BASEBLUE,
         padding: 30,
         borderRadius: 30,
-        marginVertical: 50
+        marginVertical: 50,
     },
     text:{
         fontSize: 26,

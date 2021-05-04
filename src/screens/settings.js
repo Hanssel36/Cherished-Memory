@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Text, StyleSheet, View, Switch, Pressable, Dimensions, Image, Modal, Alert } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useLocation } from "react-router";
 import { BACKGROUNDGRAY } from "../styles/colors";
 import styles from "../styles/MyStyle";
 import { UserContext } from "../utils/fontGlobal";
@@ -14,10 +15,18 @@ const Settings = ({history}) =>{
     // global states
     const {myfont,setFont} = useContext(UserContext);
     const {myFontSize, setMyFontSize} = useContext(UserContext);
+    const {step1,setStep1} = useContext(UserContext);
+
     
     function changeFont(fontsetter){
       setModalVisible(false);
       setFont(fontsetter);
+    }
+
+    function resetTutorial(){
+     setStep1(true);
+     history.push("/");
+
     }
 
     var mystyles = {
@@ -100,7 +109,11 @@ const Settings = ({history}) =>{
             <View style = {Settingstyles.section}/>
             <Text style = {Settingstyles.text}>Account</Text>
             <View style = {Settingstyles.section}/>
-            <Text style = {Settingstyles.text}>Reset Database</Text>
+
+            <Pressable onPress={() => resetTutorial()}>
+              <Text style = {Settingstyles.text}>Replay Tutorial</Text>
+            </Pressable>
+
             <View style = {Settingstyles.section}/>            
 
         </View>
