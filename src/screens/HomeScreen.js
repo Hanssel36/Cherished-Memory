@@ -63,7 +63,8 @@ const homescreenstyles = StyleSheet.create({
     },
     text:{
         fontSize: 26,
-        textAlign: 'center'  
+        textAlign: 'center',
+        fontFamily: 'default' 
     },
     icon:{
         alignItems: 'center'
