@@ -8,15 +8,20 @@ import { saveProfiles } from "./helpers";
 import { COLORS } from "../../styles";
 
 const Data = ({ history}) => {
+	const newDate = {
+		month: new Date().getMonth(),
+		date: new Date().getDate(),
+		year: new Date().getFullYear(),
+	}
+	
 	// states
 	const [allProfiles, setAllProfiles] = useState([]);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [newProfile, setNewProfile] = useState({
-		// id: null,
 		name: null,
 		relationship: null,
 		media: null,
-		dob: new Date(),
+		dob: new Date(newDate.year, newDate.month, newDate.date, 0, 0, 0, 0),
 	});
 	const [modifiedDataToggle, setModifiedDataToggle] = useState(false);
 
@@ -38,7 +43,6 @@ const Data = ({ history}) => {
 				setAllProfiles(newData);
 				saveProfiles(newData);
 				setNewProfile({
-					id: null,
 					name: null,
 					relationship: null,
 					media: null,

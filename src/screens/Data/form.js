@@ -5,11 +5,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Picker} from '@react-native-picker/picker';
 import { COLORS } from "../../styles"; 
 import {FormTextInput, FormImageInput} from "./FormInputs"
+import {profileSteps, profileAdditionalKeys} from "../../utils/constants"
 
 const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
-  const steps = ["name", "media", "relationship", "dob", "additional"];
-  const pickerItems = ["Address", "Phone Number", "School", "Favorite Color", "Favorite Food", "Favorite Animal"];
-
   const [stepsIndex, setStepsIndex] = useState(0);
   const [selectedInputKey, setSelectedInputKey] = useState("Favorite Color"); 
   const [customKey, setCustomKey] = useState(); 
@@ -48,9 +46,10 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
 
   useEffect(()=> {
     // console.log("stepsIndex", stepsIndex)
-    setCurrentInput((stepsIndex === 7) ? "" : newProfile[steps[stepsIndex]]);
+    setCurrentInput((stepsIndex === 7) ? "" : newProfile[profileSteps[stepsIndex]]);
     if (stepsIndex === 6) {
       setCurrentInput("Favorite Color")
+      console.log(currentInput)
     }
   }, [stepsIndex]);
 
@@ -140,7 +139,7 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
 
       {stepsIndex === 4 && 
       <View style={STYLES.formInputContainer}>
-        <Text style={STYLES.formText}>Is there any additional information about this {newProfile.name}'s you would like to add?</Text>
+        <Text style={STYLES.formText}>Is there any additional information about {newProfile.name}'s you would like to add?</Text>
         <View style={STYLES.buttonRow}>
           <Pressable style={STYLES.confirmButton} onPress={()=> setStepsIndex(stepsIndex+2)}>
             <Text style={STYLES.defaultButtonText}>Yes</Text>
@@ -158,12 +157,12 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
         <Picker
           style={{width:300}}
           selectedValue={selectedInputKey}
-          onValueChange={(itemValue, itemIndex) => {
-            if (itemValue !== "other")
-              setCurrentInput(itemValue);
-            setSelectedInputKey(itemValue)
+          onValueChange={(pickerItem) => {
+            if (pickerItem !== "other")
+              setCurrentInput(pickerItem);
+            setSelectedInputKey(pickerItem)
           }}>
-          {pickerItems.map((key) => (
+          {profileAdditionalKeys.map((key) => (
             <Picker.Item key={key} label={key} value={key} />
           ))}
           <Picker.Item label="Add your own type" value="other" />

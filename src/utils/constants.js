@@ -8,6 +8,13 @@ const options = {
   includeBase64: true,
 }
 
+const profileSteps = ["name", "media", "relationship", "dob", "additional"];
+const profileDefaultKeys = ["name", "media", "relationship", "dob"];
+const profileAdditionalKeys = ["Address", "Phone Number", "School", "Favorite Color", "Favorite Food", "Favorite Animal"];
+
 export {
-  options
+  options,
+  profileSteps,
+  profileDefaultKeys,
+  profileAdditionalKeys,
 }

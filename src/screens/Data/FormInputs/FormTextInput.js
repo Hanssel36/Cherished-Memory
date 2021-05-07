@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, View, TextInput } from 'react-native';
+import { COLORS } from "../../../styles"
 
 const FormTextInput = ({
 	label, 
@@ -42,7 +43,7 @@ const STYLES = StyleSheet.create({
 		alignItems: "center",
     alignContent: "center",
 		justifyContent: "space-between",
-		borderBottomColor: "black",
+		borderBottomColor: COLORS.BASEGRAY,
 		borderBottomWidth: 1,
 		width: "100%",
 		padding: 6,
@@ -59,7 +60,9 @@ const STYLES = StyleSheet.create({
 		marginVertical: 5,
 		// height: 50,
 		paddingVertical: 0,
-		borderRadius: 3,
+		borderRadius: 5,
+		borderColor: COLORS.BASEDARKGRAY,
+		borderWidth: 2,
   },
 });
 

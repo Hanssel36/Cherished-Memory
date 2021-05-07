@@ -5,6 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import DatePicker from 'react-native-date-picker';
 import { FormTextInput, FormImageInput } from "./FormInputs";
 import { COLORS } from '../../styles';
+import {profileDefaultKeys, profileAdditionalKeys} from "../../utils/constants";
 
 const Profile = ({profile, removeProfile, editProfile}) => {
 	const dobDateObj = new Date(profile?.dob)
@@ -14,8 +15,13 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 		year: dobDateObj.getUTCFullYear(),
 	}
 	const dob = dobUTC.month+"/"+dobUTC.day+"/"+dobUTC.year;
-	const defaultProfileKeys = ["media", "name", "relationship", "dob"];
-	const additionalKeys = Object.keys(profile).filter((item) => !defaultProfileKeys.includes(item));
+	const additionalKeysSet = new Set(
+		[
+			...profileAdditionalKeys, 
+			...Object.keys(profile).filter((item) => !profileDefaultKeys.includes(item))
+		]
+	);
+	const additionalKeys = Array.from(additionalKeysSet);
 	const [displayType, setDisplayType] = useState("default");
 	const [profileEditInput, setProfileEditInput] = useState(profile);
 
@@ -98,7 +104,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 		}
 
 		{displayType === "profileDetail" &&
-			<Modal onRequestClose={displayDefault }>
+			<Modal onRequestClose={displayDefault}>
 				<View style={STYLES.profile}>
 					<Pressable style={STYLES.buttonBack} onPress={displayDefault}>
 						<AntDesign name="arrowleft" size={50} color="black" />
@@ -239,7 +245,6 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 					</View>
 
 					{ additionalKeys.map((key) => (
-						!!profile[key] &&
 						<FormTextInput 
 							key={key}
 							label={`${key}`} 
@@ -249,7 +254,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 									[key]: text,
 								})
 							}}
-							defaultValue={profile[key]}
+							defaultValue={profile?.[key]}
 							column={false}
 						/>
 						))
@@ -274,6 +279,7 @@ const STYLES = StyleSheet.create({
 		backgroundColor: COLORS.BACKGROUNDGRAY,
 		margin: 20, 
 		flex: 1,
+		padding: 8,
 	},
 	profileEdit: {
 		borderRadius: 20,
@@ -284,7 +290,7 @@ const STYLES = StyleSheet.create({
 	profileEditContainer: {
 		justifyContent: "center",
 		alignItems: 'center',
-		padding: 5,
+		padding: 8,
 		width: "100%",
 		borderBottomEndRadius: 20,
 	},
@@ -293,23 +299,24 @@ const STYLES = StyleSheet.create({
 		width: "75%",
 	},
 	profileDatePicker: {
-		borderBottomColor: "black",
-		borderBottomWidth: 1,
 		backgroundColor: "rgba(255, 255, 255, 0.5)",
 		width: "100%",
 	},
 	profileTextContainer: {
 		width: "100%",
-		borderBottomColor: "black",
+		borderBottomColor: COLORS.BASEGRAY,
 		borderBottomWidth: 1,
 		fontSize: 24,
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "space-between",
-		padding: 10,
+		padding: 8,
 	},
 	profileDatePickerContainer: {
 		width: "100%",
+		borderBottomWidth: 1,
+		borderBottomColor: COLORS.BASEGRAY,
+		padding: 8,
 	},
 	profileLabel: {
 		fontWeight: "bold",
