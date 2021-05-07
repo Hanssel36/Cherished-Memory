@@ -94,7 +94,7 @@ const homescreenstyles = StyleSheet.create({
         borderRadius: 30,
         marginVertical: 30,
         width: "80%",
-        minWidth: 200,
+        minWidth: 350,
     },
     text:{
         fontSize: 26,
