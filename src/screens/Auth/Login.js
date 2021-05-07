@@ -1,8 +1,11 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react'
-import { Image, Text, TextInput, Pressable, View, StyleSheet } from 'react-native'
+import { Image, Text, TextInput, Pressable, View, StyleSheet, Dimensions } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {useGlobal} from "../../context/GlobalContext";
-import { firebase } from '../../firebase/config'
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import { COLORS } from '../../styles';
 
 export default function Login({history}) {
     const [input, setInput] = useState({
@@ -16,44 +19,37 @@ export default function Login({history}) {
         history.push('/register')
     }
 
+    const onAuthStateChanged = (newUser) => {
+        dispatch({
+            type: "changeUser",
+            newUser,
+        });
+        if (loading) setLoading(false);
+      }
+
     const onLoginPress = () => {
         setLoading(true);
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(input.email, input.password)
-            .then((response) => {
-                const uid = response.user.uid
-                const usersRef = firebase.firestore().collection('users')
-                usersRef
-                    .doc(uid)
-                    .get()
-                    .then((firestoreDocument) => {
-                        if (!firestoreDocument.exists) {
-                            alert("Invalid user/password")
-                            setLoading(false);
-                            return;
-                        }
-                        const newUser = firestoreDocument.data();
-                    
-                        dispatch({
-                            type: "changeUser",
-                            newUser,
-                        })
 
-                        setLoading(false);
-
-                        history.push('/') //, {user})
-                    })
-                    .catch(error => {
-                        alert(error)
-                        setLoading(false);
-                    });
-            })
-            .catch(error => {
-                alert(error)
-                setLoading(false);
-
-            })
+        auth()
+        .signInWithEmailAndPassword(input.email, input.password)
+        .then((response) => {
+            console.log('User account signed in');
+            const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+            console.log("response", response)
+            const usersCollection = firestore()
+            .collection('Users')
+            .doc(response.uid);
+            console.log("usersCollection", usersCollection);
+            
+            history.push('/');
+            return subscriber;
+          })
+        .catch(error => {  
+            if (error.code === 'auth/invalid-email') {
+                console.log('That email address is invalid!');
+            }
+            console.error(error);
+        });
     }
 
     return (
@@ -108,7 +104,9 @@ export default function Login({history}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: COLORS.BACKGROUNDGRAY,
+        minHeight: Dimensions.get('window').height, 
     },
     title: {
 

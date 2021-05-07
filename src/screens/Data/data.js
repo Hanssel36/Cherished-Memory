@@ -56,21 +56,18 @@ const Data = ({ history}) => {
 	}
 
 	const removeProfile = (profileIndex) => {
-		console.log(profileIndex);
-		// console.log(allProfiles[profileIndex]);
 		let remainingProfiles = allProfiles;
 		remainingProfiles.splice(profileIndex, 1)
-		console.log(remainingProfiles);
+		// console.log(remainingProfiles);
 		setAllProfiles(remainingProfiles);
 		saveProfiles(remainingProfiles);
 		setModifiedDataToggle(!modifiedDataToggle);
-		// const jsonValue = JSON.stringify(remainingProfiles);
-		// await AsyncStorage.setItem('profiles', jsonValue);
 	}
 
-	const saveProfile = (profileIndex, newData) => {
-		const updateProfiles = allProfiles.splice(profileIndex-1, 1, newData);
-		console.log(updateProfiles);
+	const editProfile = (profileIndex, newData) => {
+		let updateProfiles = allProfiles;
+		updateProfiles.splice(profileIndex, 1, newData);
+		// console.log(updateProfiles);
 		setAllProfiles(updateProfiles);
 		saveProfiles(updateProfiles);
 		setModifiedDataToggle(!modifiedDataToggle);
@@ -121,7 +118,7 @@ const Data = ({ history}) => {
 			<View style={STYLES.displayProfilesContainer}>
 				{
 					allProfiles.map((profile, index) => (
-						<Profile key={`${profile.name}${index}`} profile={profile} removeProfile={()=>removeProfile(index)} />
+						<Profile key={`${profile.name}${index}`} profile={profile} removeProfile={()=>removeProfile(index)} editProfile={(newData)=>editProfile(index, newData)} />
 					))
 				}
 			</View>

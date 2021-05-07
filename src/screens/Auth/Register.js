@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
-import { Image, Text, TextInput, Pressable, View, StyleSheet } from 'react-native'
+import { Image, Text, TextInput, Pressable, View, StyleSheet, Dimensions } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { firebase } from '../../firebase/config'
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import {useGlobal} from "../../context/GlobalContext";
+import {Checkbox} from "../../components/Checkbox";
+import { COLORS } from '../../styles';
 
 const Register = ({history}) => {
     const [input, setInput] = useState({
@@ -9,10 +13,22 @@ const Register = ({history}) => {
         email: "",
         password: "",
         confirmPassword: "",
+        // userType: ""
     })
+
+    const [loading, setLoading] = useState(false);
+    const [global, dispatch] = useGlobal();
 
     const onFooterLinkPress = () => {
         history.push('/login');
+    }
+
+    const onAuthStateChanged = (newUser) => {
+        dispatch({
+            type: "changeUser",
+            newUser,
+        });
+        if (loading) setLoading(false);
     }
 
     const onRegisterPress = () => {
@@ -20,29 +36,31 @@ const Register = ({history}) => {
             alert("Passwords don't match.")
             return
         }
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(input.email, input.password)
-            .then((response) => {
-                const uid = response.user.uid
-                const data = {
-                    id: uid,
-                    email: input.email,
-                    fullName: input.fullName,
-                };
-                const usersRef = firebase.firestore().collection('users')
-                usersRef
-                    .doc(uid)
-                    .set(data)
-                    .then(() => {
-                        history.push("/login")
-                    })
-                    .catch((error) => {
-                        alert(error)
-                    });
-            })
-            .catch((error) => {
-                alert(error)
+        setLoading(true);
+
+        auth()
+        .createUserWithEmailAndPassword(input.email, input.password)
+        .then((response) => {
+            console.log('User account created and signed in');
+            const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+            console.log(response)
+            const usersCollection = firestore()
+            .collection('Users')
+            .doc(response.uid);
+            console.log(usersCollection);
+            history.push('/');
+            return subscriber;
+          })
+        .catch(error => {
+            if (error.code === 'auth/email-already-in-use') {
+                console.log('This email address is already used by an existing account. Please log in instead.');
+            }
+        
+            if (error.code === 'auth/invalid-email') {
+                console.log('This email address is invalid.');
+            }
+        
+            console.error(error);
         });
     }
 
@@ -107,11 +125,16 @@ const Register = ({history}) => {
                 />
                 <Pressable
                     style={styles.button}
-                    onPress={() => onRegisterPress()}>
+                    onPress={onRegisterPress}
+                    disabled={loading}
+                >
                     <Text style={styles.buttonTitle}>Create account</Text>
                 </Pressable>
+                {/* <Checkbox
+                   onPress={onUserTypePress}
+                /> */}
                 <View style={styles.footerView}>
-                    <Text style={styles.footerText}>Already got an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text></Text>
+                    <Text style={styles.footerText}>Already have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text></Text>
                 </View>
             </KeyboardAwareScrollView>
         </View>
@@ -121,7 +144,9 @@ const Register = ({history}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: COLORS.BACKGROUNDGRAY,
+        minHeight: Dimensions.get('window').height,
     },
     logo: {
         flex: 1,

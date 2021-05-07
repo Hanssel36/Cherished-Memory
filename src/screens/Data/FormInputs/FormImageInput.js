@@ -2,22 +2,12 @@ import React from 'react';
 import { Text, StyleSheet, View, Pressable, Image, Alert } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
 import { COLORS } from "../../../styles"; 
+import {options} from "../../../utils/constants"
 
 const FormImageInput = ({label, imgSource, setImage, ...props}) => {
-  const selectImage = () => {
-    let options = {
-      title: 'Select Image',
-      maxWidth: 256,
-      maxHeight: 256,
-      noData: true,
-      mediaType: 'photo',
-      storageOptions: {
-        skipBackup: true,
-				path: 'images',
-      }
-    };
 
-    ImagePicker.launchImageLibrary(options, response => {
+  const selectImage = () => {
+    ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         // console.log('User cancelled photo picker');
         Alert.alert('You did not select any image');
@@ -25,8 +15,8 @@ const FormImageInput = ({label, imgSource, setImage, ...props}) => {
         console.log('ImagePicker Error: ', response.error);
       } else {
         let media = { 
-					base64: response.base64,
-					uri: response.uri,
+					base64: response?.base64,
+					uri: response?.uri,
 				};
 
         // ADD THIS
@@ -39,7 +29,7 @@ const FormImageInput = ({label, imgSource, setImage, ...props}) => {
     <View style={STYLES.formInputContainer}>
       <Text style={STYLES.formText}>{label}</Text>
       <View style={STYLES.imageContainer}>
-          {imgSource === null 
+          {!imgSource 
           ? (
             <Image
                 source={require('../../../assets/images/placeholderimage.jpg')}
@@ -90,6 +80,7 @@ const STYLES = StyleSheet.create({
     borderRadius: 20,
 		padding: 10,
 		elevation: 2,
+    fontSize: 16,
   },
 });
 

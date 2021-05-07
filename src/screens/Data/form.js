@@ -8,7 +8,7 @@ import {FormTextInput, FormImageInput} from "./FormInputs"
 
 const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
   const steps = ["name", "media", "relationship", "dob", "additional"];
-  const pickerItems = ["Favorite Color", "Favorite Food", "Favorite Animal", "School"];
+  const pickerItems = ["Address", "Phone Number", "School", "Favorite Color", "Favorite Food", "Favorite Animal"];
 
   const [stepsIndex, setStepsIndex] = useState(0);
   const [selectedInputKey, setSelectedInputKey] = useState("Favorite Color"); 
@@ -40,12 +40,6 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
       else {
         setStepsIndex(stepsIndex+1);
       }
-        // setNewProfile(
-        //   {...newProfile, 
-        //     [currentStep]: currentInput,
-        //   }
-        // );
-        // setCurrentInput(newProfile[steps[stepsIndex]]);
     }
     else {
       Alert.alert('You did not enter anything');
@@ -53,15 +47,12 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
   }
 
   useEffect(()=> {
-    setCurrentInput(stepsIndex === 7 ? "" : newProfile[steps[stepsIndex]]);
+    // console.log("stepsIndex", stepsIndex)
+    setCurrentInput((stepsIndex === 7) ? "" : newProfile[steps[stepsIndex]]);
     if (stepsIndex === 6) {
       setCurrentInput("Favorite Color")
     }
   }, [stepsIndex]);
-
-  useEffect(()=> {
-    console.log("currentInput:",currentInput);
-  }, [currentInput]);
 
 	return (  
   <View style={{
@@ -100,7 +91,7 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
 
       {stepsIndex === 1 && 
         <FormImageInput
-          label="Add a picture of your loved one"
+          label={`Add a picture of ${newProfile.name}`}
           imgSource={newProfile?.media}
           setImage={(media) => {
             setCurrentInput(media);
@@ -114,7 +105,7 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
 
       {stepsIndex === 2 && 
         <FormTextInput 
-          label="What is their relationship to you?"
+          label={`What is ${newProfile.name}'s relationship to you?`}
           placeholder="Enter Relationship"
           onChangeText={text => {
             setCurrentInput(text);
@@ -129,7 +120,7 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
 
       {stepsIndex === 3 && 
       <View style={STYLES.formDateInputContainer}>
-        <Text style={STYLES.formText}>What is their birthday?</Text>
+        <Text style={STYLES.formText}>When is {newProfile.name}'s birthday?</Text>
         <DatePicker 
           date={newProfile.dob}
           onDateChange={(value) => 
@@ -149,7 +140,7 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
 
       {stepsIndex === 4 && 
       <View style={STYLES.formInputContainer}>
-        <Text style={STYLES.formText}>Is there any additional information about this person you would like to add?</Text>
+        <Text style={STYLES.formText}>Is there any additional information about this {newProfile.name}'s you would like to add?</Text>
         <View style={STYLES.buttonRow}>
           <Pressable style={STYLES.confirmButton} onPress={()=> setStepsIndex(stepsIndex+2)}>
             <Text style={STYLES.defaultButtonText}>Yes</Text>
@@ -212,7 +203,7 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
       {stepsIndex === 5
       ? 
       <View style={STYLES.formInputContainer}> 
-        <Text style={STYLES.formText}>Great! You are all done. Press Submit to finish adding the new profile.</Text> 
+        <Text style={STYLES.formText}>Great! You are all done. Press Submit to finish adding the new profile for {newProfile.name}.</Text> 
         <Pressable 
           style={STYLES.submitButton}
           onPress={addProfile}

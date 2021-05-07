@@ -1,12 +1,19 @@
 import React from 'react';
 import { Text, StyleSheet, View, TextInput } from 'react-native';
 
-const FormInput = ({label, placeholder, onChangeText, defaultValue, ...props}) => {
+const FormTextInput = ({
+	label, 
+	placeholder="", 
+	onChangeText, 
+	defaultValue, 
+	column=true, 
+	...props
+}) => {
 	return (
-		<View style={STYLES.formInputContainer}>    
-			<Text style={STYLES.formText}>{label}</Text>
+		<View style={column ? STYLES.columnFormInputContainer : STYLES.flexRowInputContainer}>    
+			<Text style={column ? STYLES.columnFormLabel : STYLES.flexRowLabel}>{label}</Text>
 			<TextInput
-					style={STYLES.formInput}
+					style={column ? STYLES.columnFormInput : STYLES.flexRowInput}
 					placeholder={placeholder}
 					onChangeText={onChangeText}
 					defaultValue={defaultValue}
@@ -18,17 +25,42 @@ const FormInput = ({label, placeholder, onChangeText, defaultValue, ...props}) =
 }
 
 const STYLES = StyleSheet.create({
-  formInputContainer: {
+  columnFormInputContainer: {
     alignItems: "center",
     alignContent: "center"
   }, 
-  formText: {
+  columnFormLabel: {
     fontSize: 25,
     textAlign: 'center',
   },
-  formInput: {
+  columnFormInput: {
     fontSize: 20,
+  },
+  flexRowInputContainer: {
+    display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+    alignContent: "center",
+		justifyContent: "space-between",
+		borderBottomColor: "black",
+		borderBottomWidth: 1,
+		width: "100%",
+		padding: 6,
+  }, 
+  flexRowLabel: {
+    fontSize: 25,
+		width: "50%",
+		fontWeight: "bold",
+  },
+  flexRowInput: {
+    fontSize: 25,
+		backgroundColor: "white",
+		width: "50%",
+		marginVertical: 5,
+		// height: 50,
+		paddingVertical: 0,
+		borderRadius: 3,
   },
 });
 
-export default FormInput;
+export default FormTextInput;
