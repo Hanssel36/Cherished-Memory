@@ -11,7 +11,8 @@ const initialState = {
   theme: {
     backgroundColor: COLORS.BACKGROUNDGRAY,
     fontSize: "14px",
-  }
+  },
+  caregiverModeOn: false,
 }
 
 const reducer = (state, action) => {
@@ -24,8 +25,13 @@ const reducer = (state, action) => {
     case "changeUser": 
       return {
         ...state,
-        user: action.newUser
-      }
+        user: action.newUser,
+      };
+    case "changeCaregiverModeOn": 
+      return {
+        ...state,
+        caregiverModeOn: action.caregiverModeOn
+      };
       
     default:
       return state;

@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import DatePicker from 'react-native-date-picker';
 import { FormTextInput, FormImageInput } from "./FormInputs";
+import {useGlobal} from "../../context/GlobalContext";
 import { COLORS } from '../../styles';
 import {profileDefaultKeys, profileAdditionalKeys} from "../../utils/constants";
 
@@ -24,6 +25,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 	const additionalKeys = Array.from(additionalKeysSet);
 	const [displayType, setDisplayType] = useState("default");
 	const [profileEditInput, setProfileEditInput] = useState(profile);
+	const [{caregiverModeOn}] = useGlobal();
 
 	const displayDefault = () => {
 		setDisplayType("default");
@@ -112,12 +114,13 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 							Exit
 						</Text>
 					</Pressable>
-					<Pressable style={STYLES.buttonRemoveProfile} onPress={confirmRemoveProfile}>
+					{!caregiverModeOn &&
+						<Pressable style={STYLES.buttonRemoveProfile} onPress={confirmRemoveProfile}>
 						<AntDesign name="closecircleo" size={25}/>
 						<Text style={STYLES.buttonRemoveText}>
 							Remove Profile
 						</Text>
-					</Pressable>
+					</Pressable>}
 					<Image 
 						source={profile?.media?.uri ? {uri: profile?.media?.uri} : require('../../assets/images/placeholderprofile.png')}
 						style={STYLES.profileImage}
@@ -159,12 +162,14 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 						</View>
 						))
 					}
-					<Pressable style={STYLES.buttonEditProfile} onPress={displayProfileEdit}>
-						<AntDesign name="edit" size={25} /> 
-						<Text style={STYLES.buttonEditText}>
-							Edit Profile
-						</Text>
-					</Pressable>
+					{!caregiverModeOn &&
+						<Pressable style={STYLES.buttonEditProfile} onPress={displayProfileEdit}>
+							<AntDesign name="edit" size={25} /> 
+							<Text style={STYLES.buttonEditText}>
+								Edit Profile
+							</Text>
+						</Pressable>
+					}
 				</View>
 			</Modal>
 		}
@@ -213,16 +218,6 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 							defaultValue={profile.relationship}
 							column={false}
 						/>
-{/* 
-<View style={STYLES.profileTextContainer}>
-						<Text style={STYLES.profileLabel}>
-							Birthday 
-						</Text>
-						<Text style={STYLES.profileText}>
-							{dob}
-						</Text>
-					</View> */}
-
 					<View style={STYLES.profileDatePickerContainer}>
 						<Text style={STYLES.profileLabel}>
 							Birthday
@@ -256,6 +251,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 							}}
 							defaultValue={profile?.[key]}
 							column={false}
+							placeholder="Optional"
 						/>
 						))
 					}
