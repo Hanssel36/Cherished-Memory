@@ -83,8 +83,20 @@ export default function App( {history} ) {
 		}
 	}
 	relationset = Array.from(relationset);
+
+	console.log(selecteddob.split('-'));
+	let newdob = new Array();
+	newdob = Array.from(selecteddob.split('-'));
 	
 	
+	const getrandomnumber = () =>{
+		var randommonth = Math.floor(Math.random() *12) + 1;
+		var randomyear = Math.floor(Math.random()*100) + 1900;
+		var randomday = Math.floor(Math.random()*31)+1;
+		return(
+			randommonth+"/" + randomday +"/" + randomyear
+		)
+	}
 	//array that contains questions currently only hardcoded questions will randomize later
 	//console.log(allProfiles[1]?.name)
 	const questions = [
@@ -100,10 +112,10 @@ export default function App( {history} ) {
 		{
 			questionText: "When  is their birthday?",
 			answerOptions: [
-				{ answerText: selecteddob, isCorrect: true },
-				{ answerText: 'Pepsi', isCorrect: false },
-				{ answerText: 'Green Tea', isCorrect: false },
-				{ answerText: 'Coffee', isCorrect: false },
+				{ answerText: newdob[1] + "/" + newdob[2][0,1] + "/" + newdob[0], isCorrect: true },
+				{ answerText: getrandomnumber(), isCorrect: false },
+				{ answerText: getrandomnumber(), isCorrect: false },
+				{ answerText: getrandomnumber(), isCorrect: false },
 			],
 		},
 		{
