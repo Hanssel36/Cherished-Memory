@@ -59,9 +59,9 @@ const ProfileForm = ({newProfile, setNewProfile, addProfile}) => {
     }
   }, [stepsIndex]);
 
-  useEffect(()=> {
-    console.log("currentInput:",currentInput);
-  }, [currentInput]);
+  // useEffect(()=> {
+  //   console.log("currentInput:",currentInput);
+  // }, [currentInput]);
 
 	return (  
   <View style={{

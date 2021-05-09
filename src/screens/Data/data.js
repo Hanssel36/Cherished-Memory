@@ -56,11 +56,11 @@ const Data = ({ history}) => {
 	}
 
 	const removeProfile = (profileIndex) => {
-		console.log(profileIndex);
+		// console.log(profileIndex);
 		// console.log(allProfiles[profileIndex]);
 		let remainingProfiles = allProfiles;
 		remainingProfiles.splice(profileIndex, 1)
-		console.log(remainingProfiles);
+		// console.log(remainingProfiles);
 		setAllProfiles(remainingProfiles);
 		saveProfiles(remainingProfiles);
 		setModifiedDataToggle(!modifiedDataToggle);
