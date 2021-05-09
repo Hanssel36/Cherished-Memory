@@ -10,8 +10,14 @@ import { UserContext } from "../utils/fontGlobal";
 
 const Home = ({history}) => {
 	const [{user}, dispatch] = useGlobal();
-	const [toolTipVisible,setToolTipVisible] = useState(true);
-	const {step1, step2, step3, setStep1, setStep2, setStep3} = useContext(UserContext);
+	const [toolTipVisible, setToolTipVisible] = useState(true);
+	const {
+		step1, setStep1,
+		step2, setStep2,
+		step3, setStep3,
+		myfont, setFont,
+		myFontSize, setMyFontSize,
+	} = useContext(UserContext);
 
 	function userProfile(){
 			setStep1(false);
@@ -38,7 +44,14 @@ const Home = ({history}) => {
 		});
 	}
 
-		
+    var mystyles = {
+        text:{
+          fontSize: myFontSize,
+          textAlign: 'center',
+          fontFamily : myfont
+      }
+		};
+
     return(
     
     <View style = {homescreenstyles.container} >
@@ -52,19 +65,19 @@ const Home = ({history}) => {
             onClose={() => userProfile()}
             >
             <Pressable style = {homescreenstyles.ProfileButton} onPress = {() => history.push("/data")}>
-                <Text style = {homescreenstyles.text} >User Profile</Text>
+                <Text style = {mystyles.text} >User Profile</Text>
             </Pressable>
         </Tooltip>
         
         
         <Tooltip
             isVisible={step2}
-            content={<Text style = {homescreenstyles.text}>Press me to go to quizzes</Text>}
+            content={<Text style = {mystyles.text}>Press me to go to quizzes</Text>}
             placement="top"
             onClose={() => quizButton()}
             >
             <Pressable style = {homescreenstyles.QuizButton} onPress = {() => history.push("/quiz")}>
-                <Text style = {homescreenstyles.text} >Quiz</Text>
+                <Text style = {mystyles.text} >Quiz</Text>
             </Pressable>
         </Tooltip>
 

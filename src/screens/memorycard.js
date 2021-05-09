@@ -11,25 +11,7 @@ import Profile from './Data/profile';
 // Create logic for memory game
 
 const Memory = ({ history}) =>{
-/*
-  <Modal  animationType="slide"
-  transparent={false}
-  visible={profileLimit}
-  >
-<View style={memStyles.centeredView}>
-<View style={memStyles.modalView}>
 
-<Text style={memStyles.modalText}>Please have at least 4 profiles to play matching card game</Text>
-<Pressable
-style={[memStyles.button, memStyles.buttonClose]}
-onPress={() => history.push("/data")}
->
-<Text style={memStyles.modalText}>Go to data screen</Text>
-</Pressable>
-</View>
-</View>
-</Modal>
-*/
   const [allProfiles, setAllProfiles] = useState([]);
   const [modifiedDataToggle, setModifiedDataToggle] = useState(false);
   const [winGame, setWinGame] = useState(false);
@@ -71,7 +53,7 @@ onPress={() => history.push("/data")}
   
   while (tempSet.size != 4) {
       
-      let j = Math.floor(Math.random() * 4);
+      let j = Math.floor(Math.random() * 5);
       tempSet.add(j);
   }
 
@@ -82,24 +64,6 @@ onPress={() => history.push("/data")}
     faceCard.push({image: allProfiles[tempSet[i]]?.media});
     
   }
-
-  /*
-  let faceCard = [
-    ,
-    {image: allProfiles[1]?.media},
-    {image: allProfiles[2]?.media},
-    {image: allProfiles[3]?.media}
-  ]
-  */
-
-  /*
-  let faceCard = [
-  {image:require('../assets/images/Image_1.png')},
-  {image:require('../assets/images/Image_2.png')},
-  {image:require('../assets/images/Image_3.png')},
-  {image:require('../assets/images/Image_4.png')}
-  ]
-    */
 
   for( let i = 0; i < numOfCards/2; i++){
     faceCard.push(faceCard[i])
