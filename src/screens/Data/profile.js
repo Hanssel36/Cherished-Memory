@@ -212,7 +212,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 							onChangeText={(text) => {
 								setProfileEditInput({
 									...profileEditInput,
-									[key]: text,
+									relationship: text,
 								})
 							}}
 							defaultValue={profile.relationship}

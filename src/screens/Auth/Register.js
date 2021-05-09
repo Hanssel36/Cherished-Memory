@@ -55,7 +55,13 @@ const Register = ({history}) => {
 					console.log(response)
 					const usersCollection = firestore()
 						.collection('Users')
-						.doc(response.uid);
+						.doc(response.uid)
+						.set({
+							allProfiles: [],
+						})
+						.then(()=> {
+							console.log("User allProfiles init")
+						})
 					console.log(usersCollection);
 					history.push('/');
 					return subscriber;
@@ -176,17 +182,6 @@ const STYLES = StyleSheet.create({
 		marginTop: 40,
 		marginBottom: 20,
 	},
-	input: {
-		height: 48,
-		borderRadius: 5,
-		overflow: 'hidden',
-		backgroundColor: 'white',
-		marginTop: 10,
-		marginBottom: 10,
-		marginLeft: 30,
-		marginRight: 30,
-		paddingLeft: 16
-	},
 	button: {
 		backgroundColor: COLORS.BASEGREEN,
 		width: "80%",
@@ -199,7 +194,7 @@ const STYLES = StyleSheet.create({
 		marginTop: 20,
 	},
 	buttonTitle: {
-		color: 'black',
+		color: COLORS.BASEBLACK,
 		fontSize: 30,
 		fontWeight: "bold"
 	},

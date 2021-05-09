@@ -10,7 +10,7 @@ import {useGlobal} from "../../context/GlobalContext";
 import {validateForm} from "../../utils/helper";
 import { COLORS } from '../../styles';
 
-export default function Login({history}) {
+const Login = ({history}) => {
 	const [input, setInput] = useState({
 		email: "",
 		password: "",
@@ -46,14 +46,15 @@ export default function Login({history}) {
 					// console.log("response", response)
 					const usersCollection = firestore()
 						.collection('Users')
-						.doc(response.uid);
+						.doc(response.uid)
+						.get();
 					console.log("usersCollection", usersCollection);
 
 					history.push('/');
 					return subscriber;
 				})
 				.catch(error => {  
-					if (error.code === 'auth/invalid-email') {
+					if (error.code === 'auth/invalid-email' || error.code === "auth/wrong-password") {
 					Alert.alert('Invalid Login. Please check your email and/or password.');
 				}
 				console.error(error);
@@ -156,7 +157,7 @@ const STYLES = StyleSheet.create({
 		marginTop: 20,
 	},
 	buttonTitle: {
-		color: 'black',
+		color: COLORS.BASEBLACK,
 		fontSize: 30,
 		fontWeight: "bold"
 	},
@@ -175,3 +176,5 @@ const STYLES = StyleSheet.create({
 		fontSize: 18
 	}
 });
+
+export default Login;

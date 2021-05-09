@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-async function saveProfiles (profiles) {
+const saveProfiles = async (profiles) => {
   try {
     const jsonValue = JSON.stringify(profiles);
     await AsyncStorage.setItem('profiles', jsonValue);
@@ -10,6 +10,17 @@ async function saveProfiles (profiles) {
   }
 }
 
+const getProfiles = async (setAllProfiles) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('profiles');
+    setAllProfiles(jsonValue ? JSON.parse(jsonValue) : []);
+  } catch (e) {
+    console.error(e)
+    // read error
+  }
+}
+
 export {
   saveProfiles,
+  getProfiles,
 }

@@ -37,7 +37,7 @@ const STYLES = StyleSheet.create({
   },
   columnFormInput: {
     fontSize: 25,
-		backgroundColor: "white",
+		backgroundColor: COLORS.BASEWHITE,
 		marginVertical: 5,
 		paddingVertical: 0,
 		borderRadius: 5,
@@ -64,7 +64,7 @@ const STYLES = StyleSheet.create({
   },
   flexRowInput: {
     fontSize: 25,
-		backgroundColor: "white",
+		backgroundColor: COLORS.BASEWHITE,
 		marginVertical: 5,
 		// height: 50,
 		paddingVertical: 0,
