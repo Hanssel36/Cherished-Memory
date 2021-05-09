@@ -10,14 +10,17 @@ import {UserContext} from "./src/utils/fontGlobal"
 
 const App = () => {
 
-  const [myfont, setFont] = useState('default');
+  const [myfont, setFont] = useState('Default');
+  const [myFontSize, setMyFontSize] = useState(20);
+
   const [step1,setStep1] = useState(true);
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
 
 
   return (
-    <UserContext.Provider value = {{myfont,setFont, 
+    <UserContext.Provider value = {{myfont,setFont,
+                                    myFontSize, setMyFontSize, 
                                     step1, setStep1, 
                                     step2, setStep2, 
                                     step3, setStep3}}>

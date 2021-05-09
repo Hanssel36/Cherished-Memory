@@ -11,6 +11,9 @@ import styles from '../styles/MyStyle';
 const homeScreen = ({ history}) => {
 
     const [toolTipVisible,setToolTipVisible] = useState(true);
+    const {myfont,setFont} = useContext(UserContext);
+    const {myFontSize, setMyFontSize} = useContext(UserContext);
+
     const {step1, setStep1} = useContext(UserContext);
     const {step2, setStep2} = useContext(UserContext);
     const {step3, setStep3} = useContext(UserContext);
@@ -26,6 +29,14 @@ const homeScreen = ({ history}) => {
         
     }
 
+    var mystyles = {
+        text:{
+          fontSize: myFontSize,
+          textAlign: 'center',
+          fontFamily : myfont
+      }
+      };
+
     return(
     
     <View style = {homescreenstyles.container} >
@@ -39,24 +50,24 @@ const homeScreen = ({ history}) => {
             onClose={() => userProfile()}
             >
             <Pressable style = {homescreenstyles.ProfileButton} onPress = {() => history.push("/data")}>
-                <Text style = {homescreenstyles.text} >User Profile</Text>
+                <Text style = {mystyles.text} >User Profile</Text>
             </Pressable>
         </Tooltip>
         
         
         <Tooltip
             isVisible={step2}
-            content={<Text style = {homescreenstyles.text}>Press me to go to quizzes</Text>}
+            content={<Text style = {mystyles.text}>Press me to go to quizzes</Text>}
             placement="top"
             onClose={() => quizButton()}
             >
             <Pressable style = {homescreenstyles.QuizButton} onPress = {() => history.push("/quiz")}>
-                <Text style = {homescreenstyles.text} >Quiz</Text>
+                <Text style = {mystyles.text} >Quiz</Text>
             </Pressable>
         </Tooltip>
 
         <Pressable style = {homescreenstyles.SettingsButton} onPress = {() => history.push("/settings")}>
-            <Text style = {homescreenstyles.text} >Settings</Text>
+            <Text style = {mystyles.text} >Settings</Text>
         </Pressable>
 
     </View>
