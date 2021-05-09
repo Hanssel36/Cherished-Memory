@@ -5,6 +5,7 @@ export const BASEDARKGRAY = "#595959";
 export const BASEBLACK = "#000000";
 export const BASERED = "#e0564c";
 export const BASEGRAY = "#ACACAC";
+export const BASEWHITE = "#ffffff";
 
 export const BACKGROUNDGREEN = "#9CDBA7";
 export const BACKGROUNDBLUE = "#BADBE7";

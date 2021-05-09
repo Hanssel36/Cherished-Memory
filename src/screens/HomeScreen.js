@@ -1,33 +1,48 @@
 import React, {useState, useContext} from 'react';
 import { Button, Text, StyleSheet, View, Dimensions, Image, Pressable } from 'react-native';
+import auth from '@react-native-firebase/auth';
+import {useGlobal} from "../context/GlobalContext";
 import { COLORS } from '../styles';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import { UserContext } from "../utils/fontGlobal";
 
-import styles from '../styles/MyStyle';
-
 // Temporary looks for now. Setting button doesnt do anything yet.
 
-const homeScreen = ({ history}) => {
+const Home = ({history}) => {
+	const [{user}, dispatch] = useGlobal();
+	const [toolTipVisible, setToolTipVisible] = useState(true);
+	const {
+		step1, setStep1,
+		step2, setStep2,
+		step3, setStep3,
+		myfont, setFont,
+		myFontSize, setMyFontSize,
+	} = useContext(UserContext);
 
-    const [toolTipVisible,setToolTipVisible] = useState(true);
-    const {myfont,setFont} = useContext(UserContext);
-    const {myFontSize, setMyFontSize} = useContext(UserContext);
+	function userProfile(){
+			setStep1(false);
+			setStep2(true);
+	}
+	function quizButton(){
+			setStep2(false);
+			setStep3(true);
+	}
 
-    const {step1, setStep1} = useContext(UserContext);
-    const {step2, setStep2} = useContext(UserContext);
-    const {step3, setStep3} = useContext(UserContext);
-
-    function userProfile(){
-        setStep1(false);
-        setStep2(true);
-    }
-
-    function quizButton(){
-        setStep2(false);
-        setStep3(true);
-        
-    }
+	const onLogoutPress = () => {
+		auth()
+		.signOut()
+		.then(() => {
+			dispatch({
+				type: "changeUser",
+				newUser: null,
+			});
+			console.log('User logged out')
+		})
+		.catch((error) => {
+			// An error happened.
+			console.log(error)
+		});
+	}
 
     var mystyles = {
         text:{
@@ -35,7 +50,7 @@ const homeScreen = ({ history}) => {
           textAlign: 'center',
           fontFamily : myfont
       }
-      };
+		};
 
     return(
     
@@ -66,55 +81,73 @@ const homeScreen = ({ history}) => {
             </Pressable>
         </Tooltip>
 
-        <Pressable style = {homescreenstyles.SettingsButton} onPress = {() => history.push("/settings")}>
-            <Text style = {mystyles.text} >Settings</Text>
-        </Pressable>
+		<Pressable style = {homescreenstyles.SettingsButton} onPress = {() => history.push("/settings")}>
+			<Text style = {homescreenstyles.text} >Settings</Text>
+		</Pressable>
 
-    </View>
-);
-}
+		{!user ?
+		<Pressable style = {homescreenstyles.LoginButton} onPress = {() => history.push("/login")}>
+			<Text style = {homescreenstyles.text} >Login</Text>
+		</Pressable> 
+		:
+		<Pressable style = {homescreenstyles.LoginButton} onPress = {onLogoutPress}>
+			<Text style = {homescreenstyles.text} >Logout</Text>
+		</Pressable> 
+		}
+
+		</View>
+	)
+};
+
 const homescreenstyles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: COLORS.BACKGROUNDPURPLE,
-        minHeight: Dimensions.get('window').height,
-        width: Dimensions.get('window').width,
-        paddingVertical: 150,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    ProfileButton: {
-        backgroundColor: COLORS.BASEGREEN,
-        padding: 30,
-        borderRadius: 30,
-        marginVertical: 30,
-        width: "80%",
-        minWidth: 350,
-    },
-    QuizButton: {
-        backgroundColor: COLORS.BASEBLUE,
-        padding: 30,
-        borderRadius: 30,
-        marginVertical: 30,
-        width: "80%",
-        minWidth: 350,
-    },
-    SettingsButton: {
-        backgroundColor: COLORS.BASEGRAY,
-        padding: 30,
-        borderRadius: 30,
-        marginVertical: 30,
-        width: "80%",
-        minWidth: 350,
-    },
-    text:{
-        fontSize: 26,
-        textAlign: 'center',
-        fontFamily: 'default' 
-    },
-    icon:{
-        alignItems: 'center'
-    }
+	container: {
+		flex: 1,
+		backgroundColor: COLORS.BACKGROUNDPURPLE,
+		minHeight: Dimensions.get('window').height,
+		width: Dimensions.get('window').width,
+		paddingVertical: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	ProfileButton: {
+		backgroundColor: COLORS.BASEGREEN,
+		padding: 30,
+		borderRadius: 30,
+		marginVertical: 30,
+		width: "80%",
+		minWidth: 350,
+	},
+	QuizButton: {
+		backgroundColor: COLORS.BASEBLUE,
+		padding: 30,
+		borderRadius: 30,
+		marginVertical: 30,
+		width: "80%",
+		minWidth: 350,
+	},
+	SettingsButton: {
+		backgroundColor: COLORS.BASEGRAY,
+		padding: 30,
+		borderRadius: 30,
+		marginVertical: 30,
+		width: "80%",
+		minWidth: 350,
+	},
+	LoginButton: {
+		backgroundColor: COLORS.BASEDARKGRAY,
+		padding: 30,
+		marginVertical: 30,
+		borderRadius: 30,
+	},
+	text: {
+		fontSize: 26,
+		textAlign: 'center',
+		fontFamily: 'default',
+	},
+	icon:{
+		alignItems: 'center'
+	}
 });
 
-export default homeScreen;
+export default Home;
+

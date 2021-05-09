@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "735731166181",
+    "firebase_url": "https://cherished-memory-default-rtdb.firebaseio.com",
+    "project_id": "cherished-memory",
+    "storage_bucket": "cherished-memory.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735731166181:android:0f3a7bb6b61281f06ddd0c",
+        "android_client_info": {
+          "package_name": "com.cherishedmemory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735731166181-2rserd7e48kj5d0b3diqfgf1o6srd785.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZODSpmX1uN-nG0sD_EAIDWXBTqBSf3sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735731166181-2rserd7e48kj5d0b3diqfgf1o6srd785.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

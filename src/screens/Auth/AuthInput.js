@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, StyleSheet, View, TextInput } from 'react-native';
-import { COLORS } from "../../../styles"
+import { COLORS } from "../../styles"
 
-const FormTextInput = ({
+const AuthInput = ({
 	label, 
-	placeholder="", 
+	placeholder, 
 	onChangeText, 
 	defaultValue, 
 	column=true, 
@@ -15,10 +15,10 @@ const FormTextInput = ({
 			<Text style={column ? STYLES.columnFormLabel : STYLES.flexRowLabel}>{label}</Text>
 			<TextInput
 					style={column ? STYLES.columnFormInput : STYLES.flexRowInput}
-					placeholder={placeholder}
+					placeholder={placeholder ?? `Enter Your ${label}`}
 					onChangeText={onChangeText}
 					defaultValue={defaultValue}
-					autoCapitalize="words"
+          autoCapitalize="none"
 					{...props}
 			/>
 		</View>
@@ -27,15 +27,25 @@ const FormTextInput = ({
 
 const STYLES = StyleSheet.create({
   columnFormInputContainer: {
-    alignItems: "center",
-    alignContent: "center"
+    // alignItems: "center",
+    alignContent: "center",
+    marginVertical: 15,
   }, 
   columnFormLabel: {
     fontSize: 25,
-    textAlign: 'center',
+    fontWeight: "bold",
   },
   columnFormInput: {
-    fontSize: 20,
+    fontSize: 25,
+		backgroundColor: COLORS.BASEWHITE,
+		marginVertical: 5,
+		paddingVertical: 0,
+		borderRadius: 5,
+		borderColor: COLORS.BASEDARKGRAY,
+		borderWidth: 2,
+    height: 50,
+    width: "100%",
+    paddingHorizontal: 10,
   },
   flexRowInputContainer: {
     display: "flex",
@@ -50,13 +60,11 @@ const STYLES = StyleSheet.create({
   }, 
   flexRowLabel: {
     fontSize: 25,
-		width: "50%",
 		fontWeight: "bold",
   },
   flexRowInput: {
     fontSize: 25,
-		backgroundColor: "white",
-		width: "50%",
+		backgroundColor: COLORS.BASEWHITE,
 		marginVertical: 5,
 		// height: 50,
 		paddingVertical: 0,
@@ -66,4 +74,4 @@ const STYLES = StyleSheet.create({
   },
 });
 
-export default FormTextInput;
+export default AuthInput;

@@ -1,33 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, StyleSheet, View, Modal, Image, Pressable, Dimensions, ScrollView } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Text, StyleSheet, View, Modal, Image, Pressable, Dimensions, ScrollView } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import firestore from '@react-native-firebase/firestore';
 import Form from "./form";
 import Profile from "./profile";
-import { saveProfiles } from "./helpers";
+import { saveProfiles, getProfiles } from "./helpers";
+import {useGlobal} from "../../context/GlobalContext";
 import { COLORS } from "../../styles";
 
 const Data = ({ history}) => {
+	const newDate = {
+		month: new Date().getMonth(),
+		date: new Date().getDate(),
+		year: new Date().getFullYear(),
+	}
+
+	const [{user}, dispatch] = useGlobal();
+	
 	// states
 	const [allProfiles, setAllProfiles] = useState([]);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [newProfile, setNewProfile] = useState({
-		// id: null,
 		name: null,
 		relationship: null,
 		media: null,
-		dob: new Date(),
+		dob: new Date(newDate.year, newDate.month, newDate.date, 0, 0, 0, 0),
 	});
 	const [modifiedDataToggle, setModifiedDataToggle] = useState(false);
 
-	// util functions get/store data
-	const getData = async () => {
+	// util functions update data
+	const saveToFirestore = () => {
+		if (!user?.uid) return;
 		try {
-			const jsonValue = await AsyncStorage.getItem('profiles');
-			setAllProfiles(jsonValue ? JSON.parse(jsonValue) : []);
-		} catch (e) {
-			console.error(e)
-			// read error
+			const usersCollection = firestore()
+			.collection('Users')
+			.doc(user.uid)
+			.set({
+				allProfiles,
+			})
+			.then(()=> {
+				console.log("User allProfiles save")
+			});
+			return usersCollection;
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
@@ -38,7 +54,6 @@ const Data = ({ history}) => {
 				setAllProfiles(newData);
 				saveProfiles(newData);
 				setNewProfile({
-					id: null,
 					name: null,
 					relationship: null,
 					media: null,
@@ -56,30 +71,36 @@ const Data = ({ history}) => {
 	}
 
 	const removeProfile = (profileIndex) => {
-		// console.log(profileIndex);
-		// console.log(allProfiles[profileIndex]);
 		let remainingProfiles = allProfiles;
 		remainingProfiles.splice(profileIndex, 1)
-		// console.log(remainingProfiles);
+		console.log(remainingProfiles);
 		setAllProfiles(remainingProfiles);
 		saveProfiles(remainingProfiles);
 		setModifiedDataToggle(!modifiedDataToggle);
-		// const jsonValue = JSON.stringify(remainingProfiles);
-		// await AsyncStorage.setItem('profiles', jsonValue);
 	}
 
-	const saveProfile = (profileIndex, newData) => {
-		const updateProfiles = allProfiles.splice(profileIndex-1, 1, newData);
-		console.log(updateProfiles);
+	const editProfile = (profileIndex, newData) => {
+		let updateProfiles = allProfiles;
+		updateProfiles.splice(profileIndex, 1, newData);
+		// console.log(updateProfiles);
 		setAllProfiles(updateProfiles);
 		saveProfiles(updateProfiles);
 		setModifiedDataToggle(!modifiedDataToggle);
 	}
 
+	// useEffect(()=> {
+	// 	// AsyncStorage.clear();
+	// 	getProfiles();
+	// }, [modifiedDataToggle])
+
 	useEffect(()=> {
-		// AsyncStorage.clear();
-		getData();
-	}, [modifiedDataToggle])
+		user?.uid && saveToFirestore();
+		// console.log(allProfiles);
+	}, [allProfiles])
+
+	useEffect(()=> {
+		getProfiles(setAllProfiles);
+	}, []);
 
 	return(
 		<View style={STYLES.container}>
@@ -121,7 +142,7 @@ const Data = ({ history}) => {
 			<View style={STYLES.displayProfilesContainer}>
 				{
 					allProfiles.map((profile, index) => (
-						<Profile key={`${profile.name}${index}`} profile={profile} removeProfile={()=>removeProfile(index)} />
+						<Profile key={`${profile.name}${index}`} profile={profile} removeProfile={()=>removeProfile(index)} editProfile={(newData)=>editProfile(index, newData)} />
 					))
 				}
 			</View>
