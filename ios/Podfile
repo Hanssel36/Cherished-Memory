@@ -12,6 +12,7 @@ target 'CherishedMemory' do
 
   pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
 
+
   target 'CherishedMemoryTests' do
     inherit! :complete
     # Pods for testing

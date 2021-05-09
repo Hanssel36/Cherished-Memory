@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, StyleSheet } from 'react-native';
-import { NativeRouter, Route, Link, Switch, BackButton } from "react-router-native";
+import { NativeRouter, Route, BackButton } from "react-router-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {GlobalProvider} from "./src/context/GlobalContext";
+import {UserContext} from "./src/utils/fontGlobal"
 import {Data, Quiz, MemoryCardGame, Home, Login, Register, MultipleChoice, Settings} from './src/screens/';
 import { COLORS } from './src/styles';
 
@@ -39,9 +40,20 @@ const reducer = (state, action) => {
 };
 
 const App = () => {
+
+  const [myfont, setFont] = useState('default');
+  const [step1,setStep1] = useState(true);
+  const [step2, setStep2] = useState(false);
+  const [step3, setStep3] = useState(false);
+
+
   return (
     <GlobalProvider initialState={initialState} reducer={reducer}>
-      <NativeRouter>
+    <UserContext.Provider value = {{myfont,setFont, 
+                                    step1, setStep1, 
+                                    step2, setStep2, 
+                                    step3, setStep3}}>
+    <NativeRouter>
         <View style={STYLES.container}>
           <KeyboardAwareScrollView style={STYLES.scrollContainer}>
           <BackButton />
@@ -56,7 +68,8 @@ const App = () => {
           <Route exact path = "/register" component = {Register}/>
           </KeyboardAwareScrollView>
         </View>
-      </NativeRouter>
+    </NativeRouter>
+    </UserContext.Provider>
     </GlobalProvider>
   );
 }
