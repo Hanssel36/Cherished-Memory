@@ -5,24 +5,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {GlobalProvider} from "./src/context/GlobalContext";
 import {UserContext} from "./src/utils/fontGlobal"
 import {Data, Quiz, MemoryCardGame, Home, Login, Register, MultipleChoice, Settings} from './src/screens/';
-import { COLORS } from './src/styles';
 
 const initialState = {
   user: null,
-  theme: {
-    backgroundColor: COLORS.BACKGROUNDGRAY,
-    fontSize: "14px",
-  },
   caregiverModeOn: false,
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'changeTheme':
-      return {
-        ...state,
-        theme: action.newTheme
-      };
     case "changeUser": 
       return {
         ...state,
