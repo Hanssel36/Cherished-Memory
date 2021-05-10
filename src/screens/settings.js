@@ -231,8 +231,6 @@ const Settings = ({history}) =>{
       </Pressable>
 
       <View style = {Settingstyles.section}/>
-      <Text style = {mystyles.text}>Font Color: Default</Text>
-      <View style = {Settingstyles.section}/>
       <Text style = {mystyles.text}>Account</Text>
       <View style = {Settingstyles.section}/>
 

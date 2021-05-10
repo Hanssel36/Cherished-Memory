@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { NativeRouter, Route, BackButton } from "react-router-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {GlobalProvider} from "./src/context/GlobalContext";
 import {UserContext} from "./src/utils/fontGlobal"
 import {Data, Quiz, MemoryCardGame, Home, Login, Register, MultipleChoice, Settings, Selection} from './src/screens/';
@@ -48,6 +47,7 @@ const App = () => {
                                     step3, setStep3}}>
     <NativeRouter>
         <View style={STYLES.container}>
+  
           <BackButton />
 
           <Route exact path = "/" component = {Home}/>
