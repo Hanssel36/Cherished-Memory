@@ -5,6 +5,7 @@ import {useGlobal} from "../context/GlobalContext";
 import { COLORS } from '../styles';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import { UserContext } from "../utils/fontGlobal";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // Temporary looks for now. Setting button doesnt do anything yet.
 
@@ -55,6 +56,7 @@ const Home = ({history}) => {
     return(
     
     <View style = {homescreenstyles.container} >
+			<KeyboardAwareScrollView style={homescreenstyles.scrollContainer} contentContainerStyle={homescreenstyles.scrollContentContainer}>
 
         <Image style={homescreenstyles.icon} source = {require('../assets/images/Logo.png')}/>
 
@@ -95,6 +97,7 @@ const Home = ({history}) => {
 		</Pressable> 
 		}
 
+		</KeyboardAwareScrollView>
 		</View>
 	)
 };
@@ -105,6 +108,14 @@ const homescreenstyles = StyleSheet.create({
 		backgroundColor: COLORS.BACKGROUNDPURPLE,
 		minHeight: Dimensions.get('window').height,
 		width: Dimensions.get('window').width,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	scrollContainer: {
+		flex: 1,
+		width: '100%',
+	},
+	scrollContentContainer: {
 		paddingVertical: 50,
 		justifyContent: 'center',
 		alignItems: 'center',
