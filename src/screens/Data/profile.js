@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, Alert, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Modal, Alert, Image, Pressable, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import DatePicker from 'react-native-date-picker';
@@ -107,13 +107,14 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 
 		{displayType === "profileDetail" &&
 			<Modal onRequestClose={displayDefault}>
-				<View style={STYLES.profile}>
+				<KeyboardAwareScrollView style={STYLES.profileDetail} contentContainerStyle={STYLES.profileDetailContentStyle}>
 					<Pressable style={STYLES.buttonBack} onPress={displayDefault}>
 						<AntDesign name="arrowleft" size={50} color="black" />
 						<Text style={STYLES.buttonBackText}>
 							Exit
 						</Text>
 					</Pressable>
+
 					{!caregiverModeOn &&
 						<Pressable style={STYLES.buttonRemoveProfile} onPress={confirmRemoveProfile}>
 						<AntDesign name="closecircleo" size={25}/>
@@ -121,47 +122,51 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 							Remove Profile
 						</Text>
 					</Pressable>}
-					<Image 
-						source={profile?.media?.uri ? {uri: profile?.media?.uri} : require('../../assets/images/placeholderprofile.png')}
-						style={STYLES.profileImage}
-					/>
-					<View style={STYLES.profileTextContainer}>
-						<Text style={STYLES.profileLabel}>
-							Name
-						</Text>
-						<Text style={STYLES.profileText}>
-							{profile?.name}
-						</Text>
-					</View>
-					<View style={STYLES.profileTextContainer}>
-						<Text style={STYLES.profileLabel}>
-							Relationship
-						</Text>
-						<Text style={STYLES.profileText}>
-							{profile?.relationship}
-						</Text>
-					</View>
-					<View style={STYLES.profileTextContainer}>
-						<Text style={STYLES.profileLabel}>
-							Birthday 
-						</Text>
-						<Text style={STYLES.profileText}>
-							{dob}
-						</Text>
-					</View>
 
-					{ additionalKeys.map((key) => (
-						!!profile[key] &&
-						<View style={STYLES.profileTextContainer} key={key}>
+
+					<View style={STYLES.profileDetailInfo}>
+						<Image 
+							source={profile?.media?.uri ? {uri: profile?.media?.uri} : require('../../assets/images/placeholderprofile.png')}
+							style={STYLES.profileImage}
+						/>
+						<View style={STYLES.profileTextContainer}>
 							<Text style={STYLES.profileLabel}>
-								{key} 
+								Name
 							</Text>
 							<Text style={STYLES.profileText}>
-								{profile[key]}
+								{profile?.name}
 							</Text>
 						</View>
-						))
-					}
+						<View style={STYLES.profileTextContainer}>
+							<Text style={STYLES.profileLabel}>
+								Relationship
+							</Text>
+							<Text style={STYLES.profileText}>
+								{profile?.relationship}
+							</Text>
+						</View>
+						<View style={STYLES.profileTextContainer}>
+							<Text style={STYLES.profileLabel}>
+								Birthday 
+							</Text>
+							<Text style={STYLES.profileText}>
+								{dob}
+							</Text>
+						</View>
+
+						{ additionalKeys.map((key) => (
+							!!profile[key] &&
+							<View style={STYLES.profileTextContainer} key={key}>
+								<Text style={STYLES.profileLabel}>
+									{key} 
+								</Text>
+								<Text style={STYLES.profileText}>
+									{profile[key]}
+								</Text>
+							</View>
+							))
+						}
+					</View>
 					{!caregiverModeOn &&
 						<Pressable style={STYLES.buttonEditProfile} onPress={displayProfileEdit}>
 							<AntDesign name="edit" size={25} /> 
@@ -170,7 +175,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 							</Text>
 						</Pressable>
 					}
-				</View>
+				</KeyboardAwareScrollView>
 			</Modal>
 		}
 
@@ -277,6 +282,24 @@ const STYLES = StyleSheet.create({
 		flex: 1,
 		padding: 8,
 	},
+	profileDetail: {
+		borderRadius: 20,
+		backgroundColor: COLORS.BACKGROUNDGRAY,
+		margin: 20, 
+		flex: 1,
+	},
+	profileDetailContentStyle: {
+		justifyContent: "center",
+		alignItems: 'center',
+	},
+	profileDetailInfo: {
+		justifyContent: "center",
+		alignItems: 'center',
+		padding: 8,
+		width: "100%",
+		borderBottomEndRadius: 20,
+		marginBottom: 80,
+	},
 	profileEdit: {
 		borderRadius: 20,
 		backgroundColor: COLORS.BACKGROUNDGRAY,
@@ -293,6 +316,8 @@ const STYLES = StyleSheet.create({
 	profileImage: {
 		aspectRatio: 1,
 		width: "75%",
+		marginTop: 80,
+		marginBottom: 30,
 	},
 	profileDatePicker: {
 		backgroundColor: "rgba(255, 255, 255, 0.5)",
