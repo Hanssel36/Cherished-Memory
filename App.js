@@ -4,8 +4,8 @@ import { NativeRouter, Route, BackButton } from "react-router-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {GlobalProvider} from "./src/context/GlobalContext";
 import {UserContext} from "./src/utils/fontGlobal"
-import {Data, Quiz, MemoryCardGame, Home, Login, Register, MultipleChoice, Settings} from './src/screens/';
-
+import {Data, Quiz, MemoryCardGame, Home, Login, Register, MultipleChoice, Settings, Selection} from './src/screens/';
+import selection from './src/screens/selection';
 const initialState = {
   user: null,
   caregiverModeOn: false,
@@ -59,7 +59,7 @@ const App = () => {
           <Route exact path = "/settings" component = {Settings}/>
           <Route exact path = "/login" component = {Login}/>
           <Route exact path = "/register" component = {Register}/>
-          
+          <Route exact path = "/selection" component = {selection}/>
         </View>
     </NativeRouter>
     </UserContext.Provider>

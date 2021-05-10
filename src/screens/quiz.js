@@ -82,7 +82,7 @@ const quizScreen = ({ history}) => {
 							<Text style = {STYLES.text} >Memory Game</Text>
 						</Pressable>
 					</Tooltip>
-						<Pressable style = {STYLES.buttonMultipleChoice}  onPress = {() => history.push("/multiplechoice")}>
+						<Pressable style = {STYLES.buttonMultipleChoice}  onPress = {() => history.push("/selection")}>
 							<Text style = {STYLES.text} >Multiple Choice</Text>
 						</Pressable>
 
