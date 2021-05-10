@@ -107,7 +107,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 
 		{displayType === "profileDetail" &&
 			<Modal onRequestClose={displayDefault}>
-				<KeyboardAwareScrollView style={STYLES.profileDetail} contentContainerStyle={STYLES.profileDetailContentStyle}>
+				<KeyboardAwareScrollView style={STYLES.profileModal} contentContainerStyle={STYLES.profileModalContainer}>
 					<Pressable style={STYLES.buttonBack} onPress={displayDefault}>
 						<AntDesign name="arrowleft" size={50} color="black" />
 						<Text style={STYLES.buttonBackText}>
@@ -181,7 +181,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 
 			{displayType === "profileEdit" &&
 			<Modal onRequestClose={displayProfileDetail}>
-			<KeyboardAwareScrollView style={STYLES.profileEdit} contentContainerStyle={STYLES.profileEditContainer}>
+			<KeyboardAwareScrollView style={STYLES.profileModal} contentContainerStyle={STYLES.profileModalContainer}>
 				<Pressable style={STYLES.buttonBack} onPress={displayProfileDetail}>
 					<AntDesign name="arrowleft" size={50} color="black" />
 					<Text style={STYLES.buttonBackText}>
@@ -282,31 +282,20 @@ const STYLES = StyleSheet.create({
 		flex: 1,
 		padding: 8,
 	},
-	profileDetail: {
-		borderRadius: 20,
-		backgroundColor: COLORS.BACKGROUNDGRAY,
-		margin: 20, 
-		flex: 1,
-	},
-	profileDetailContentStyle: {
-		justifyContent: "center",
-		alignItems: 'center',
-	},
 	profileDetailInfo: {
 		justifyContent: "center",
 		alignItems: 'center',
 		padding: 8,
 		width: "100%",
-		borderBottomEndRadius: 20,
 		marginBottom: 80,
 	},
-	profileEdit: {
+	profileModal: {
 		borderRadius: 20,
 		backgroundColor: COLORS.BACKGROUNDGRAY,
 		margin: 20, 
 		flex: 1,
 	},
-	profileEditContainer: {
+	profileModalContainer: {
 		justifyContent: "center",
 		alignItems: 'center',
 		padding: 8,
@@ -399,6 +388,7 @@ const STYLES = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		alignItems: 'center',
+
 	},
 	buttonEditText: {
 		fontSize: 24,
