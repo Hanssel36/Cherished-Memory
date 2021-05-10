@@ -1,59 +1,148 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Text, StyleSheet, View, Dimensions, Pressable, Modal } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeRouter, Route, Link } from "react-router-native";
 import styles from '../styles/MyStyle';
 import { BACKGROUNDBLUE, BACKGROUNDPURPLE, BASEBLUE, BASEPURPLE } from '../styles/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import Profile from './profilehelp';
 
 
 export default function App( {history} ) {
 
+	const [allProfiles, setAllProfiles] = useState([]);
+	const Profile = ({profile, removeProfile}) => {
+		const dobDateObj = new Date(profile?.dob)
+		const dobUTC = {
+			month: dobDateObj.getUTCMonth() + 1, //months from 1-12
+			day: dobDateObj.getUTCDate(),
+			year: dobDateObj.getUTCFullYear(),
+		}
+		const dob = dobUTC.month+"/"+dobUTC.day+"/"+dobUTC.year;
+		const defaultProfileKeys = ["media", "name", "relationship", "dob"];
+		const additionalKeys = Object.keys(profile).filter((item) => !defaultProfileKeys.includes(item));
+		const [displayOpen, setDisplayOpen] = useState(false);
+	}
+	
+		const displayFullProfile = () => {
+			setDisplayOpen(true);
+		}
+	
+
+
+	const getData = async () => {
+		try {
+			const jsonValue = await AsyncStorage.getItem('profiles');
+			let user = await AsyncStorage.getItem('name');
+			setAllProfiles(jsonValue ? JSON.parse(jsonValue) : []);
+		} catch (e) {
+			console.error(e)
+			// read error
+		}
+	}
+
+	const [modifiedDataToggle, setModifiedDataToggle] = useState(false);
+
+	useEffect(()=> {
+		// AsyncStorage.clear();
+		getData();
+	}, [modifiedDataToggle])
+
+
 	//declaring modals used for feedback after question's are answered
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modal2Visible, setModal2Visible] = useState(false);
+
+	//TESTING STUFF
+	//console.log("This is number of profiles",allProfiles.length);
+	//console.log("Person selected was", selected);
+	//console.log(allProfiles.findIndex(obj => obj.name == selected));
+	//const index = allProfiles.findIndex(obj => obj.name == selected);
+	//console.log("SELECTED INDEX = ", indes);
+	//console.log(allProfiles[index])
+
+/// RANDOM NUMBER GEN	console.log("RANDOM NUMNER", Math.floor(Math.random()* 5));
+
+	const potnames = ["James", "Peter", "Jeff", "Kyle", "Emma", "Jessica", "Bonnie", "Chris", "Hanssel", "Florence"]
+	let nameset = new Set();
+	while(nameset.size != 3){
+		let j = Math.floor(Math.random() * (potnames.length-1));
+		console.log(j);
+		nameset.add(potnames[j]);
+	}
+	nameset = Array.from(nameset)
+	console.log(nameset[0])
+
+	const potrelations = ["Daughter", "Aunt", "Mother", "Grandmother", "Cousin", "Uncle", "Father","Son", "Nephew", "Niece", "Grandfather"]
+	let relationset = new Set();
+	while (relationset.size !=3){
+		let j = Math.floor(Math.random() * (potrelations.length-1));
+		console.log(j);
+		if(potrelations[j] != selectedrelationship){
+		relationset.add(potrelations[j]);
+		}
+	}
+	relationset = Array.from(relationset);
+
+	console.log(selecteddob.split('-'));
+	let newdob = new Array();
+	newdob = Array.from(selecteddob.split('-'));
 	
 	
+	const getrandomnumber = () =>{
+		var randommonth = Math.floor(Math.random() *12) + 1;
+		var randomyear = Math.floor(Math.random()*100) + 1900;
+		var randomday = Math.floor(Math.random()*31)+1;
+		return(
+			randommonth+"/" + randomday +"/" + randomyear
+		)
+	}
 	//array that contains questions currently only hardcoded questions will randomize later
+	//console.log(allProfiles[1]?.name)
 	const questions = [
 		{
-			questionText: 'What is Sandra\'s last name?',
+			questionText: 'What is this person\'s name?',
 			answerOptions: [
-				{ answerText: 'Smith', isCorrect: true },
-				{ answerText: 'Gretle', isCorrect: false },
-				{ answerText: 'Robinson', isCorrect: false },
-				{ answerText: 'Johnson', isCorrect: false },
+				{ answerText: selectedname, isCorrect: true },
+				{ answerText: nameset[0], isCorrect: false },
+				{ answerText: nameset[1], isCorrect: false },
+				{ answerText: nameset[2], isCorrect: false },
 			],
 		},
 		{
-			questionText: 'What is Sandra\'s favorite drink?',
+			questionText: "When  is their birthday?",
 			answerOptions: [
-				{ answerText: 'Water', isCorrect: true },
-				{ answerText: 'Pepsi', isCorrect: false },
-				{ answerText: 'Green Tea', isCorrect: false },
-				{ answerText: 'Coffee', isCorrect: false },
+				{ answerText: newdob[1] + "/" + newdob[2][0,1] + "/" + newdob[0], isCorrect: true },
+				{ answerText: getrandomnumber(), isCorrect: false },
+				{ answerText: getrandomnumber(), isCorrect: false },
+				{ answerText: getrandomnumber(), isCorrect: false },
 			],
 		},
 		{
-			questionText: 'Where did Sandra go to school?',
+			questionText: 'What is their relationship to you?',
 			answerOptions: [
-				{ answerText: 'Harvard', isCorrect: false },
-				{ answerText: 'Yale', isCorrect: false },
-				{ answerText: 'CCNY', isCorrect: true },
-				{ answerText: 'Stanford', isCorrect: false },
+				{ answerText: relationset[0], isCorrect: false },
+				{ answerText: relationset[1], isCorrect: false },
+				{ answerText: selectedrelationship, isCorrect: true },
+				{ answerText: relationset[2], isCorrect: false },
 			],
 		},
-		{
-			questionText: 'How many dogs does Sandra have?',
+		/*{
+			questionText: 'How many dogs do they have?',
 			answerOptions: [
 				{ answerText: '1', isCorrect: false },
 				{ answerText: '4', isCorrect: false },
 				{ answerText: '6', isCorrect: false },
 				{ answerText: '2', isCorrect: true },
 			],
-		},
+		},*/
 	];
+
+	
+		//questions.sort(() => Math.random() -0.5);
+		for (let i = 0; i < questions.length; i++){
+			questions[i].answerOptions.sort(() => Math.random() -0.5);
+		}
 
 	//declaring vars used for quiz scoring will fully implement later
 	const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -137,7 +226,7 @@ export default function App( {history} ) {
 		<View>
 
 			<Pressable style = {Quizstyles.QuizButton} onPress = //button for first question choice
-			{() => {currentQuestion == (questions.length - 1) ? alert("You've finished quiz") : 
+			{() => {currentQuestion == (questions.length - 1) ? alert("You've finished quiz. Go back to take another quiz.") : 
 			setCurrentQuestion(currentQuestion + 1); {questions[currentQuestion].answerOptions[0].isCorrect ? setModalVisible(true) : setModal2Visible(true);}}}>
 				<Text style = {Quizstyles.Choices}> {questions[currentQuestion].answerOptions[0].answerText}</Text> 
 			</Pressable>
@@ -145,7 +234,7 @@ export default function App( {history} ) {
 			<View style={Quizstyles.space}/>
 
 			<Pressable style = {Quizstyles.QuizButton} onPress = //button for second choice
-			{() => {currentQuestion == (questions.length - 1) ? alert("You've finished quiz") :
+			{() => {currentQuestion == (questions.length - 1) ? alert("You've finished quiz. Go back to take another quiz.") :
 			setCurrentQuestion(currentQuestion + 1); {questions[currentQuestion].answerOptions[1].isCorrect ? setModalVisible(true) : setModal2Visible(true);}}}>
 				<Text style = {Quizstyles.Choices}> {questions[currentQuestion].answerOptions[1].answerText}</Text>
 			</Pressable>	
@@ -153,7 +242,7 @@ export default function App( {history} ) {
 			<View style = {Quizstyles.space}/>
 
 			<Pressable style = {Quizstyles.QuizButton} onPress = //third choice
-			{() => {currentQuestion == (questions.length - 1) ? alert("You've finished quiz") :
+			{() => {currentQuestion == (questions.length - 1) ? alert("You've finished quiz. Go back to take another quiz.") :
 			setCurrentQuestion(currentQuestion + 1); {questions[currentQuestion].answerOptions[2].isCorrect ? setModalVisible(true) : setModal2Visible(true);}}}>
 				<Text style = {Quizstyles.Choices}> {questions[currentQuestion].answerOptions[2].answerText}</Text>
 			</Pressable>	
@@ -161,7 +250,7 @@ export default function App( {history} ) {
 			<View style = {Quizstyles.space}/>
 			
 			<Pressable style = {Quizstyles.QuizButton} onPress = //fourth choice
-			{() => {currentQuestion == (questions.length - 1) ? alert("You've finished quiz") :
+			{() => {currentQuestion == (questions.length - 1) ? alert("You've finished quiz. Go back to take another quiz.") :
 			setCurrentQuestion(currentQuestion + 1); {questions[currentQuestion].answerOptions[3].isCorrect ? setModalVisible(true) : setModal2Visible(true);}}}>
 				<Text style = {Quizstyles.Choices}> {questions[currentQuestion].answerOptions[3].answerText}</Text>
 			</Pressable>	
@@ -169,8 +258,6 @@ export default function App( {history} ) {
 			<View style = {Quizstyles.space}/>
 
 		</View>
-
-		<Text> {currentQuestion}</Text>		        
     </View>
 	)
 };
