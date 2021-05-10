@@ -82,12 +82,12 @@ const Home = ({history}) => {
         </Tooltip>
 
 		<Pressable style = {homescreenstyles.SettingsButton} onPress = {() => history.push("/settings")}>
-			<Text style = {homescreenstyles.text} >Settings</Text>
+			<Text style = {mystyles.text} >Settings</Text>
 		</Pressable>
 
 		{!user ?
 		<Pressable style = {homescreenstyles.LoginButton} onPress = {() => history.push("/login")}>
-			<Text style = {homescreenstyles.text} >Login</Text>
+			<Text style = {mystyles.text} >Login</Text>
 		</Pressable> 
 		:
 		<Pressable style = {homescreenstyles.LoginButton} onPress = {onLogoutPress}>

@@ -48,7 +48,7 @@ const App = () => {
                                     step3, setStep3}}>
     <NativeRouter>
         <View style={STYLES.container}>
-          <KeyboardAwareScrollView style={STYLES.scrollContainer}>
+  
           <BackButton />
 
           <Route exact path = "/" component = {Home}/>
@@ -59,7 +59,7 @@ const App = () => {
           <Route exact path = "/settings" component = {Settings}/>
           <Route exact path = "/login" component = {Login}/>
           <Route exact path = "/register" component = {Register}/>
-          </KeyboardAwareScrollView>
+          
         </View>
     </NativeRouter>
     </UserContext.Provider>
