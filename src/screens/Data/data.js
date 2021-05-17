@@ -6,6 +6,7 @@ import Form from "./form";
 import Profile from "./profile";
 import { saveProfiles, getProfiles } from "./helpers";
 import {useGlobal} from "../../context/GlobalContext";
+import {useAllProfiles} from "../../context/AllProfilesContext";
 import { COLORS } from "../../styles";
 
 const Data = ({ history}) => {
@@ -16,6 +17,7 @@ const Data = ({ history}) => {
 	}
 
 	const [{user}, dispatch] = useGlobal();
+	// const [{allProfiles, setAllProfiles}] = useAllProfiles();
 	
 	// states
 	const [allProfiles, setAllProfiles] = useState([]);
@@ -31,6 +33,7 @@ const Data = ({ history}) => {
 	// util functions update data
 	const saveToFirestore = () => {
 		if (!user?.uid) return;
+		
 		try {
 			const usersCollection = firestore()
 			.collection('Users')
@@ -73,7 +76,6 @@ const Data = ({ history}) => {
 	const removeProfile = (profileIndex) => {
 		let remainingProfiles = allProfiles;
 		remainingProfiles.splice(profileIndex, 1)
-		console.log(remainingProfiles);
 		setAllProfiles(remainingProfiles);
 		saveProfiles(remainingProfiles);
 		setModifiedDataToggle(!modifiedDataToggle);
@@ -82,7 +84,6 @@ const Data = ({ history}) => {
 	const editProfile = (profileIndex, newData) => {
 		let updateProfiles = allProfiles;
 		updateProfiles.splice(profileIndex, 1, newData);
-		// console.log(updateProfiles);
 		setAllProfiles(updateProfiles);
 		saveProfiles(updateProfiles);
 		setModifiedDataToggle(!modifiedDataToggle);

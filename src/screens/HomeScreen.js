@@ -4,21 +4,24 @@ import auth from '@react-native-firebase/auth';
 import {useGlobal} from "../context/GlobalContext";
 import { COLORS } from '../styles';
 import Tooltip from 'react-native-walkthrough-tooltip';
-import { UserContext } from "../utils/fontGlobal";
+import { useFont } from "../context/FontContext";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useTutorial } from '../context/TutorialContext';
 
 // Temporary looks for now. Setting button doesnt do anything yet.
 
 const Home = ({history}) => {
 	const [{user}, dispatch] = useGlobal();
-	const [toolTipVisible, setToolTipVisible] = useState(true);
+	const {
+		myfont,
+		myFontSize,
+	} = useFont();
+
 	const {
 		step1, setStep1,
 		step2, setStep2,
 		step3, setStep3,
-		myfont, setFont,
-		myFontSize, setMyFontSize,
-	} = useContext(UserContext);
+	} = useTutorial();
 
 	function userProfile(){
 			setStep1(false);
@@ -62,7 +65,7 @@ const Home = ({history}) => {
 
         <Tooltip
             isVisible={step1}
-            content={<Text style = {homescreenstyles.text}>Press me First to add data</Text>}
+            content={<Text style = {homescreenstyles.text}>Press me first to add profiles of loved ones</Text>}
             placement="top"
             onClose={() => userProfile()}
             >
@@ -74,7 +77,7 @@ const Home = ({history}) => {
         
         <Tooltip
             isVisible={step2}
-            content={<Text style = {mystyles.text}>Press me to go to quizzes</Text>}
+            content={<Text style = {mystyles.text}>Press me to go to play quizzes</Text>}
             placement="top"
             onClose={() => quizButton()}
             >

@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { NativeRouter, Route, BackButton } from "react-router-native";
 import {GlobalProvider} from "./src/context/GlobalContext";
-import {UserContext} from "./src/utils/fontGlobal"
-import {Data, Quiz, MemoryCardGame, Home, Login, Register, MultipleChoice, Settings, Selection} from './src/screens/';
+import {FontProvider} from "./src/context/FontContext"
+import {TutorialProvider} from "./src/context/TutorialContext"
+import {Data, Quiz, MemoryCardGame, Home, Login, Register, MultipleChoice, Settings} from './src/screens/';
 import selection from './src/screens/selection';
+import { AllProfilesProvider } from './src/context/AllProfilesContext';
+
 const initialState = {
   user: null,
   caregiverModeOn: false,
@@ -30,21 +33,11 @@ const reducer = (state, action) => {
 
 const App = () => {
 
-  const [myfont, setFont] = useState('Default');
-  const [myFontSize, setMyFontSize] = useState(20);
-
-  const [step1,setStep1] = useState(true);
-  const [step2, setStep2] = useState(false);
-  const [step3, setStep3] = useState(false);
-
-
   return (
     <GlobalProvider initialState={initialState} reducer={reducer}>
-    <UserContext.Provider value = {{myfont,setFont,
-                                    myFontSize, setMyFontSize, 
-                                    step1, setStep1, 
-                                    step2, setStep2, 
-                                    step3, setStep3}}>
+    <FontProvider>
+    <TutorialProvider>
+    <AllProfilesProvider>
     <NativeRouter>
         <View style={STYLES.container}>
   
@@ -61,7 +54,9 @@ const App = () => {
           <Route exact path = "/selection" component = {selection}/>
         </View>
     </NativeRouter>
-    </UserContext.Provider>
+    </AllProfilesProvider>
+    </TutorialProvider>
+    </FontProvider>
     </GlobalProvider>
   );
 }

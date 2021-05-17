@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Text, StyleSheet, View, Switch, Pressable, Dimensions, Image, Modal, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useLocation } from "react-router";
-import { BACKGROUNDGRAY, BASEBLACK } from "../styles/colors";
 import styles from "../styles/MyStyle";
-import { UserContext } from "../utils/fontGlobal";
+import { FontContext } from "../context/FontContext";
+import { useTutorial } from "../context/TutorialContext";
 
 const Settings = ({history}) =>{
     const [isEnabled, setIsEnabled] = useState(false);
@@ -14,10 +12,10 @@ const Settings = ({history}) =>{
     const [modalSizeVisible, setModalSizeVisible] = useState(false);
     
     // global states
-    const {myfont,setFont} = useContext(UserContext);
-    const {myFontSize, setMyFontSize} = useContext(UserContext);
+    const {myfont,setFont} = useContext(FontContext);
+    const {myFontSize, setMyFontSize} = useContext(FontContext);
     const [modifiedDataToggle, setModifiedDataToggle] = useState(false);
-    const {step1,setStep1} = useContext(UserContext);
+    const {setStep1} = useTutorial();
 
     const [fontSizeName, setFontSizeName] = useState('Regular');
 

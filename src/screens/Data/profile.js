@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, Alert, Image, Pressable, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Modal, Alert, Image, Pressable, Dimensions, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import DatePicker from 'react-native-date-picker';
@@ -16,18 +16,14 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 		year: dobDateObj.getUTCFullYear(),
 	}
 	const dob = dobUTC.month+"/"+dobUTC.day+"/"+dobUTC.year;
-	const additionalKeysSet = new Set(
-		[
-			...profileAdditionalKeys, 
-			...Object.keys(profile).filter((item) => !profileDefaultKeys.includes(item))
-		]
-	);
-	const additionalKeys = Array.from(additionalKeysSet);
+	const [customKeys, setCustomKeys] = useState(Object.keys(profile).filter((item) => { return !profileDefaultKeys.includes(item) && !profileAdditionalKeys.includes(item)}));
 	const [displayType, setDisplayType] = useState("default");
 	const [profileEditInput, setProfileEditInput] = useState(profile);
 	const [{caregiverModeOn}] = useGlobal();
+	const [customKey, setCustomKey] = useState(""); 
+	const [customValue, setCustomValue] = useState(""); 
 
-	const displayDefault = () => {
+	const displayProfileDefault = () => {
 		setDisplayType("default");
 	}
 
@@ -37,6 +33,42 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 
 	const displayProfileEdit = () => {
 		setDisplayType("profileEdit");
+	}
+
+	const addCustomInfo = () => {
+		if (!customKey || !customValue) {
+			return;
+		}
+
+		if (customKeys.includes(customKey)) {
+			Alert.alert("That information type already exists. Please enter a different one.")
+			return;
+		}
+
+		setProfileEditInput({
+			...profileEditInput,
+			[customKey]: customValue,
+		})
+		setCustomKey("");
+		setCustomValue("");
+		setCustomKeys([
+			...customKeys,
+			customKey,
+		])
+	}
+
+	const removeCustomInfo = (customInfoKey) => {
+		let remainingProfileInfo = profileEditInput;
+		delete remainingProfileInfo.customInfoKey;
+		setProfileEditInput(remainingProfileInfo);
+
+		let newCustomKeys = customKeys.slice();
+		var customInfoIndex = newCustomKeys.indexOf(customInfoKey);
+		if (customInfoIndex !== -1) {
+			newCustomKeys.splice(customInfoIndex, 1);
+		}
+		setCustomKeys(newCustomKeys);
+		
 	}
 
 	const confirmRemoveProfile = () => {
@@ -106,9 +138,9 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 		}
 
 		{displayType === "profileDetail" &&
-			<Modal onRequestClose={displayDefault}>
+			<Modal onRequestClose={displayProfileDefault}>
 				<KeyboardAwareScrollView style={STYLES.profileModal} contentContainerStyle={STYLES.profileModalContainer}>
-					<Pressable style={STYLES.buttonBack} onPress={displayDefault}>
+					<Pressable style={STYLES.buttonBack} onPress={displayProfileDefault}>
 						<AntDesign name="arrowleft" size={50} color="black" />
 						<Text style={STYLES.buttonBackText}>
 							Exit
@@ -154,8 +186,8 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 							</Text>
 						</View>
 
-						{ additionalKeys.map((key) => (
-							!!profile[key] &&
+						{ customKeys.map((key) => (
+							!!profileEditInput[key] &&
 							<View style={STYLES.profileTextContainer} key={key}>
 								<Text style={STYLES.profileLabel}>
 									{key} 
@@ -192,6 +224,9 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 					<FormImageInput 
 						imgSource={profileEditInput?.media?.uri ? {uri: profileEditInput?.media?.uri} : require('../../assets/images/placeholderprofile.png')}
 						setImage={(media) => {
+      console.log("🚀 ~ file: profile.js ~ line 223 ~ removeCustomInfo ~ newCustomKeys", newCustomKeys)
+      console.log("🚀 ~ file: profile.js ~ line 222 ~ removeCustomInfo ~ newCustomKeys", newCustomKeys)
+      console.log("🚀 ~ file: profile.js ~ line 222 ~ removeCustomInfo ~ newCustomKeys", newCustomKeys)
 							setProfileEditInput({
 								...profileEditInput,
 								media,
@@ -208,7 +243,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 									name: text,
 								})
 							}}
-							defaultValue={profile.name}
+							defaultValue={profileEditInput.name}
 							column={false}
 						/>
 					<FormTextInput 
@@ -220,11 +255,11 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 									relationship: text,
 								})
 							}}
-							defaultValue={profile.relationship}
+							defaultValue={profileEditInput.relationship}
 							column={false}
 						/>
 					<View style={STYLES.profileDatePickerContainer}>
-						<Text style={STYLES.profileLabel}>
+						<Text style={STYLES.profileEditLabel}>
 							Birthday
 						</Text>
 						<View style={STYLES.profileDatePicker}>
@@ -244,7 +279,7 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 						</View>
 					</View>
 
-					{ additionalKeys.map((key) => (
+					{ profileAdditionalKeys.map((key) => (
 						<FormTextInput 
 							key={key}
 							label={`${key}`} 
@@ -254,12 +289,60 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 									[key]: text,
 								})
 							}}
-							defaultValue={profile?.[key]}
+							defaultValue={profileEditInput?.[key]}
 							column={false}
 							placeholder="Optional"
 						/>
 						))
 					}
+
+					{ customKeys.map((key) => (
+						<FormTextInput 
+							key={key}
+							label={`${key}`} 
+							onChangeText={(text) => {
+								setProfileEditInput({
+									...profileEditInput,
+									[key]: text,
+								})
+							}}
+							defaultValue={profileEditInput?.[key]}
+							column={false}
+							placeholder="Optional"
+							removable={true}
+							onPressRemove={() => removeCustomInfo(key)}
+						/>
+						))
+					}
+
+					<View style={STYLES.profileEditNewInfoContainer}>
+						<TextInput 
+							style={STYLES.profileEditNewInfoKeyInput}
+							onChangeText={(text) => {
+								setCustomKey(text)
+							}}
+							defaultValue={customKey}
+							column={false}
+							placeholder="New Info Type"
+						/>
+
+						<View style={STYLES.profileEditNewInfoValueContainer}>
+							<TextInput 
+								style={STYLES.profileEditNewInfoValueInput}
+								onChangeText={(text) => {
+									setCustomValue(text)
+								}}
+								defaultValue={customValue}
+								column={false}
+								placeholder="Enter New Info"
+							/>
+
+							<Pressable style={STYLES.buttonAddProfileInput} onPress={addCustomInfo}>
+								<AntDesign name="pluscircle" size={20} />
+							</Pressable>
+						</View>
+					</View>
+
 				<Pressable style={STYLES.buttonSubmitProfile} onPress={submitEdits}>
 					<Text style={STYLES.buttonEditText}>
 						Submit Changes
@@ -334,6 +417,12 @@ const STYLES = StyleSheet.create({
 		width: "50%",
 		textTransform: 'capitalize',
 	},
+	profileEditLabel: {
+		fontWeight: "bold",
+		fontSize: 20,
+		width: "50%",
+		textTransform: 'capitalize',
+	},
 	profileText: {
 		fontSize: 24,
 		width: "50%",
@@ -362,6 +451,44 @@ const STYLES = StyleSheet.create({
 	},
 	profileCardText: {
 		fontSize: 18,
+	},
+	profileEditNewInfoContainer: {
+		display: "flex",
+		flexDirection: "row",
+		padding: 6,
+	},
+	profileEditNewInfoKeyInput: {
+		fontSize: 20,
+		width: "50%",
+		overflow: "scroll",
+		backgroundColor: "white",
+		paddingVertical: 0,
+		marginVertical: 10,
+		borderRadius: 5,
+		borderColor: COLORS.BASEDARKGRAY,
+		borderWidth: 2,
+		marginLeft: -5,
+		marginRight: 5,
+	},
+	profileEditNewInfoValueContainer: {
+		width: "50%",
+		display: "flex",
+		flexDirection: "row",
+	},
+	profileEditNewInfoValueInput: {
+		fontSize: 20,
+		width: "85%",
+		overflow: "scroll",
+		backgroundColor: "white",
+		paddingVertical: 0,
+		marginVertical: 10,
+		borderRadius: 5,
+		borderColor: COLORS.BASEDARKGRAY,
+		borderWidth: 2,
+	},
+	buttonAddProfileInput: {
+		alignSelf: "center",
+		marginLeft: 5,
 	},
 	buttonBackText: {
 		fontSize: 24,

@@ -3,14 +3,14 @@ import { Text, StyleSheet, View, Dimensions, Pressable, Image, Modal } from 'rea
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Tooltip from 'react-native-walkthrough-tooltip';
-import { UserContext } from "../utils/fontGlobal";
+import { FontContext } from "../context/FontContext";
 import { COLORS } from '../styles';
 
 const quizScreen = ({ history}) => {
 
     const [allProfiles, setAllProfiles] = useState([]);
     const [blockGame, setBlockGame] = useState(false);
-    const {step3, setStep3} = useContext(UserContext);
+    const {step3, setStep3} = useContext(FontContext);
 
     const getData = async () => {
 		try {
