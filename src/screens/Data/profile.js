@@ -186,8 +186,21 @@ const Profile = ({profile, removeProfile, editProfile}) => {
 							</Text>
 						</View>
 
+						{ profileAdditionalKeys.map((key) => (
+							!!profile[key] &&
+							<View style={STYLES.profileTextContainer} key={key}>
+								<Text style={STYLES.profileLabel}>
+									{key} 
+								</Text>
+								<Text style={STYLES.profileText}>
+									{profile[key]}
+								</Text>
+							</View>
+							))
+						}
+
 						{ customKeys.map((key) => (
-							!!profileEditInput[key] &&
+							!!profile[key] &&
 							<View style={STYLES.profileTextContainer} key={key}>
 								<Text style={STYLES.profileLabel}>
 									{key} 
